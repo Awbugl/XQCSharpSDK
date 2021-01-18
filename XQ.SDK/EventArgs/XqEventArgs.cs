@@ -29,6 +29,6 @@ namespace XQ.SDK.EventArgs
         /// </summary>
         public bool Handler { get; set; }
 
-        public Robot Robot => RawEvent.RobotQq == null ? null : new Robot(XqApi, RawEvent.RobotQq);
+        public Robot Robot => string.IsNullOrWhiteSpace(RawEvent.RobotQq) ? null : new Robot(XqApi, RawEvent.RobotQq);
     }
 }

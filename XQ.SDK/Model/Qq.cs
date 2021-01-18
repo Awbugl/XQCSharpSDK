@@ -7,12 +7,12 @@ namespace XQ.SDK.Model
     {
         private string _name;
 
-        public Qq(XqApi api, Robot Robot, string id) : base(api, Robot)
+        public Qq(XqApi api, Robot robot, string id) : base(api, robot)
         {
             Id = id;
         }
 
-        public Qq(XqApi api, Robot Robot, string id, string name) : this(api, Robot, id)
+        public Qq(XqApi api, Robot robot, string id, string name) : this(api, robot, id)
         {
             _name = name;
         }

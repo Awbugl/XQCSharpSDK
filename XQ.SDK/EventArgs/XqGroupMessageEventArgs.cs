@@ -12,7 +12,7 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public Group FromGroup => RawEvent.From == null ? null : new Group(XqApi, Robot, RawEvent.From);
+        public Group FromGroup => string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
 
         public void SendGroupMessage(params object[] msg)
         {
