@@ -19,7 +19,6 @@ namespace XQ.Plugin
 
         public void GroupMessage(XqGroupMessageEventArgs e)
         {
-            e.SendGroupMessage(e.Text);
         }
 
         public void PrivateMessage(XqPrivateMessageEventArgs e)

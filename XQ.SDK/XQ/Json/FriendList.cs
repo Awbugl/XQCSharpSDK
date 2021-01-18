@@ -30,9 +30,9 @@ namespace XQ.SDK.XQ.Json
         [JsonProperty(PropertyName = "result")]
         public Dictionary<string, FriendListItem> List { get; set; }
 
-        public List<FriendInfo> GetList()
+        public List<FriendInfoJson> GetList()
         {
-            var infos = new List<FriendInfo>();
+            var infos = new List<FriendInfoJson>();
             foreach (var i in List.Values.Select(i => i.Members)) infos.AddRange(i);
             return infos;
         }
@@ -40,6 +40,6 @@ namespace XQ.SDK.XQ.Json
 
     public class FriendListItem
     {
-        [JsonProperty(PropertyName = "mems")] public List<FriendInfo> Members { get; set; }
+        [JsonProperty(PropertyName = "mems")] public List<FriendInfoJson> Members { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using XQ.SDK.Enum;
+﻿using XQ.SDK.Core;
+using XQ.SDK.Enum;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
@@ -12,9 +13,9 @@ namespace XQ.SDK.EventArgs
 
         public new PrivateMessageType Type => (PrivateMessageType) RawEvent.EventType;
 
-        public void SendPrivateMessage(string msg)
+        public void SendPrivateMessage(params object[] msg)
         {
-            XqApi.TencentApi.SendPrivateMessage(RobotQq, FromQq, Type, msg,
+            XqApi.TencentApi.SendPrivateMessage(Robot, FromQq, Type, msg.ToSend(),
                 Type == PrivateMessageType.TempGroupMessage ? RawEvent.From : "");
         }
     }

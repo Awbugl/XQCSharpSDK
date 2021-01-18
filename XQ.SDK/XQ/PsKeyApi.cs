@@ -19,7 +19,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetGroupPsKey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetGroupPsKey(_authid, robotQq));
+            return Xqdll.GetGroupPsKey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetZonePsKey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetZonePsKey(_authid, robotQq));
+            return Xqdll.GetZonePsKey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetCookies(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetCookies(_authid, robotQq));
+            return Xqdll.GetCookies(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace XQ.SDK.XQ
         /// <returns>16进制字符串</returns>
         public string GetClientkey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetClientkey(_authid, robotQq));
+            return Xqdll.GetClientkey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace XQ.SDK.XQ
         /// <returns>16进制字符串</returns>
         public string GetLongClientkey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetLongClientkey(_authid, robotQq));
+            return Xqdll.GetLongClientkey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetClassRoomPsKey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetClassRoomPsKey(_authid, robotQq));
+            return Xqdll.GetClassRoomPsKey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetRepPsKey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetRepPsKey(_authid, robotQq));
+            return Xqdll.GetRepPsKey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetTenPayPsKey(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetTenPayPsKey(_authid, robotQq));
+            return Xqdll.GetTenPayPsKey(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace XQ.SDK.XQ
         /// <returns>bkn （一串数字）</returns>
         public string GetBkn(string robotQq)
         {
-            return IntPtrToString(Xqdll.GetBkn(_authid, robotQq));
+            return Xqdll.GetBkn(_authid, robotQq).IntPtrToString();
         }
     }
 }

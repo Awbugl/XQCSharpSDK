@@ -11,11 +11,11 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public string FromQq => RawEvent.FromQq;
+        public Qq FromQq => RawEvent.FromQq == null ? null : new Qq(XqApi, Robot, RawEvent.FromQq);
 
-        public string TargetQq => RawEvent.TargetQq;
+        public Qq TargetQq => RawEvent.TargetQq == null ? null : new Qq(XqApi, Robot, RawEvent.TargetQq);
 
-        public string FromGroup => RawEvent.From;
+        public Group FromGroup => RawEvent.From == null ? null : new Group(XqApi, Robot, RawEvent.From);
 
         public XqGroupEventType Type =>
             System.Enum.IsDefined(typeof(XqGroupEventType), RawEvent.EventType)

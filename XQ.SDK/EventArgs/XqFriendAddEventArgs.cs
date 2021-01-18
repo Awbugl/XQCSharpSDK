@@ -12,7 +12,7 @@ namespace XQ.SDK.EventArgs
 
         public void Handle(XqFriendRequestHandlerType type, string refuseMessage = "")
         {
-            XqApi.TencentApi.HandleFriendEvent(RobotQq, FromQq, 101, refuseMessage);
+            XqApi.TencentApi.HandleFriendEvent(Robot, FromQq, 101, refuseMessage);
         }
     }
 }

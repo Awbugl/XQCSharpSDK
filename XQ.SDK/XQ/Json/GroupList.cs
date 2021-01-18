@@ -6,7 +6,7 @@ namespace XQ.SDK.XQ.Json
 {
     public class GroupList
     {
-        private List<GroupInfo> _list;
+        private List<GroupInfoJson> _list;
 
         /// <summary>
         ///     指示是否获取成功
@@ -30,7 +30,7 @@ namespace XQ.SDK.XQ.Json
         ///     群列表
         /// </summary>
         [JsonProperty(PropertyName = "join")]
-        public List<GroupInfo> List
+        public List<GroupInfoJson> List
         {
             get => Ec == 0 && Errcode == 0
                 ? _list

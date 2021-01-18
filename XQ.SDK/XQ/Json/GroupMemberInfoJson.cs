@@ -2,7 +2,7 @@
 
 namespace XQ.SDK.XQ.Json
 {
-    public class GroupMemberInfo
+    public class GroupMemberInfoJson
     {
         /// <summary>
         ///     上次发言时间时间戳

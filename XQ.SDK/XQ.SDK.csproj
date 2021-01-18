@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -43,7 +45,17 @@
   <ItemGroup>
     <Compile Include="Core\Expand.cs" />
     <Compile Include="Core\Kernel32.cs" />
-    <Compile Include="Core\TinyIoC.cs" />
+    <Compile Include="Core\TinyIOC\NamedParameterOverloads.cs" />
+    <Compile Include="Core\TinyIOC\NamedResolutionFailureActions.cs" />
+    <Compile Include="Core\TinyIOC\ResolveOptions.cs" />
+    <Compile Include="Core\TinyIOC\ReverseTypeExtender.cs" />
+    <Compile Include="Core\TinyIOC\SafeDictionary.cs" />
+    <Compile Include="Core\TinyIOC\TinyIoCConstructorAttribute.cs" />
+    <Compile Include="Core\TinyIOC\TinyIoCContainer.cs" />
+    <Compile Include="Core\TinyIOC\TinyIoCRegistrationTypeException.cs" />
+    <Compile Include="Core\TinyIOC\TinyIoCResolutionException.cs" />
+    <Compile Include="Core\TinyIOC\TypeExtensions.cs" />
+    <Compile Include="Core\TinyIOC\UnregisteredResolutionActions.cs" />
     <Compile Include="Core\XqPluginInfo.cs" />
     <Compile Include="Enum\Event\XqFrameEventType.cs" />
     <Compile Include="Enum\Event\XqFrameRobotQqEventType.cs" />
@@ -58,6 +70,7 @@
     <Compile Include="Enum\XqGroupRequestHandlerType.cs" />
     <Compile Include="Enum\XqOnlineStatusType.cs" />
     <Compile Include="Enum\XqQrCodeType.cs" />
+    <Compile Include="Enum\XqSexType.cs" />
     <Compile Include="Enum\XqShowPicType.cs" />
     <Compile Include="EventArgs\XqEventArgs.cs" />
     <Compile Include="EventArgs\XqFrameEventArgs.cs" />
@@ -87,17 +100,24 @@
     <Compile Include="Interface\IPrivateMessage.cs" />
     <Compile Include="Interface\IProcess.cs" />
     <Compile Include="Interface\IRobotEvent.cs" />
+    <Compile Include="Interface\IToSendString.cs" />
     <Compile Include="Interface\ITransferEvent.cs" />
     <Compile Include="Interface\IWithDrawMessage.cs" />
-    <Compile Include="Model\MessageObject.cs" />
+    <Compile Include="Model\BasisModel.cs" />
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\MessageObject\ImageMessageObject.cs" />
+    <Compile Include="Model\MessageObject\MessageObject.cs" />
+    <Compile Include="Model\MessageObject\VoiceMessageObject.cs" />
+    <Compile Include="Model\Qq.cs" />
+    <Compile Include="Model\Robot.cs" />
     <Compile Include="Model\XqRawEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XQ\FrameApi.cs" />
-    <Compile Include="XQ\Json\FriendInfo.cs" />
+    <Compile Include="XQ\Json\FriendInfoJson.cs" />
     <Compile Include="XQ\Json\FriendList.cs" />
-    <Compile Include="XQ\Json\GroupInfo.cs" />
+    <Compile Include="XQ\Json\GroupInfoJson.cs" />
     <Compile Include="XQ\Json\GroupList.cs" />
-    <Compile Include="XQ\Json\GroupMemberInfo.cs" />
+    <Compile Include="XQ\Json\GroupMemberInfoJson.cs" />
     <Compile Include="XQ\Json\GroupMemberList.cs" />
     <Compile Include="XQ\Json\OcrInfo.cs" />
     <Compile Include="XQ\Json\OcrItem.cs" />
@@ -107,5 +127,6 @@
     <Compile Include="XQ\XqApi.cs" />
     <Compile Include="XQ\Xqdll.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

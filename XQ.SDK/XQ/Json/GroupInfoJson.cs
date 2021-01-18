@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace XQ.SDK.XQ.Json
 {
-    public class GroupInfo
+    public class GroupInfoJson
     {
         private string _name;
 
@@ -12,7 +12,7 @@ namespace XQ.SDK.XQ.Json
         ///     群号
         /// </summary>
         [JsonProperty(PropertyName = "gc")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     群名称

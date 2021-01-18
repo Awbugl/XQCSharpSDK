@@ -7,14 +7,16 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using XQ.SDK.Interface;
+
 namespace XQ.SDK.Core
 {
     [SuppressMessage("ReSharper", "CommentTypo")]
     public static class Expand
     {
-        public static List<string> ToList(string str)
+        public static List<string> SplitToList(this string str)
         {
-            return str.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
+            return str.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
         }
 
         /// <summary>
@@ -23,7 +25,7 @@ namespace XQ.SDK.Core
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        private static string NickToSendString(string msg)
+        private static string NickToSendString(this string msg)
         {
             var ret = new StringBuilder();
             var reg = new Regex("(&nbsp;|\\[em\\](e[0-9]{1,6})\\[\\/em\\])",
@@ -63,7 +65,7 @@ namespace XQ.SDK.Core
         /// </summary>
         /// <param name="intPtr"></param>
         /// <returns></returns>
-        public static string IntPtrToString(IntPtr intPtr)
+        public static string IntPtrToString(this IntPtr intPtr)
         {
             try
             {
@@ -104,6 +106,36 @@ namespace XQ.SDK.Core
                 : Encoding.Convert(encoding, Encoding.UTF8,
                     bin.Skip(index - count).Take(4).ToArray()).Aggregate("[emoji=", (current, bi)
                     => current + bi.ToString("X2")) + "]";
+        }
+
+        public static DateTime ToDateTime(this int unixTime)
+        {
+            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).Add(new TimeSpan(long.Parse($"{unixTime}0000000")));
+        }
+
+        /// <summary>
+        /// 将对象转换为可发送的字符串, 如果待转换的对象继承自 <see cref="IToSendString"/> 将使用该接口的方法获取字符串
+        /// </summary>
+        /// <param name="objects">消息参数</param>
+        /// <returns>可发送的字符串</returns>
+        public static string ToSend(this object[] objects)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (var t in objects)
+            {
+                switch (t)
+                {
+                    case null:
+                        continue;
+                    case IToSendString sendString:
+                        builder.Append(sendString.ToSendString());
+                        break;
+                    default:
+                        builder.Append(t);
+                        break;
+                }
+            }
+            return builder.ToString();
         }
     }
 }

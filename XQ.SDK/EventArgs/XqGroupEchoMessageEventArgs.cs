@@ -9,11 +9,11 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public string FromGroup => RawEvent.From;
+        public Group FromGroup => RawEvent.From == null ? null : new Group(XqApi, Robot, RawEvent.From);
 
         public void WithdrawMessage()
         {
-            XqApi.TencentApi.WithdrawMsg(RobotQq, 2, FromGroup, FromQq, RawEvent.Index, RawEvent.Msgid, RawEvent.Unix);
+            XqApi.TencentApi.WithdrawMsg(Robot, 2, FromGroup, FromQq, RawEvent.Index, RawEvent.Msgid, RawEvent.Unix);
         }
     }
 }

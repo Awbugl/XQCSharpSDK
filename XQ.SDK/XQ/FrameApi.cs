@@ -61,15 +61,16 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public RobotInfo GetRInf(string robotQq)
         {
-            return JsonConvert.DeserializeObject<RobotInfo>(IntPtrToString(Xqdll.GetRInf(_authid, robotQq)));
+            return JsonConvert.DeserializeObject<RobotInfo>(Xqdll.GetRInf(_authid, robotQq).IntPtrToString());
         }
 
         /// <summary>
         ///     修改QQ在线状态
         /// </summary>
-        /// <param name="robotQq"></param>
-        /// <param name="onLineType"></param>
-        /// <param name="message"></param>
+        /// <param name="autoid"></param>
+        /// <param name="robotQq">机器人QQ</param>
+        /// <param name="onLineType">类型(1、我在线上 2、Q我吧 3、离开 4、忙碌 5、请勿打扰 6、隐身 7、修改昵称 8、修改个性签名 9、修改性别)</param>
+        /// <param name="message">修改内容(类型为7和8时填写修改内容  类型9时“1”为男 “2”为女      其他填“”)</param>
         public void SetRInf(string robotQq, string onLineType, string message)
         {
             Xqdll.SetRInf(_authid, robotQq, onLineType, message);
@@ -115,7 +116,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public List<string> GetOnlineList()
         {
-            return ToList(IntPtrToString(Xqdll.GetOnLineList(_authid)));
+            return Xqdll.GetOnLineList(_authid).IntPtrToString().SplitToList();
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public List<string> GetRobotQqList()
         {
-            return ToList(IntPtrToString(Xqdll.GetQQList(_authid)));
+            return Xqdll.GetQQList(_authid).IntPtrToString().SplitToList();
         }
     }
 }

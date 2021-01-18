@@ -58,11 +58,6 @@ namespace XQ.SDK.XQ.Json
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "members")]
-        public Dictionary<string, GroupMemberInfo> Members { get; set; }
-
-        public List<GroupMemberInfo> GetList()
-        {
-            return Members.Values.ToList();
-        }
+        public Dictionary<string, GroupMemberInfoJson> Members { get; set; }
     }
 }

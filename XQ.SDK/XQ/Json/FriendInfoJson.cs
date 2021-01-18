@@ -2,7 +2,7 @@
 
 namespace XQ.SDK.XQ.Json
 {
-    public class FriendInfo
+    public class FriendInfoJson
     {
         /// <summary>
         ///     昵称

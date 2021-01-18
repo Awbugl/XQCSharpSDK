@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
 using Newtonsoft.Json;
+
 using XQ.SDK.Enum;
+using XQ.SDK.Enum.Event;
 using XQ.SDK.Model;
 using XQ.SDK.XQ.Json;
+
 using static XQ.SDK.Core.Expand;
 
 namespace XQ.SDK.XQ
@@ -21,42 +25,42 @@ namespace XQ.SDK.XQ
             _authid = authid;
         }
 
-        public void SendGroupMessage(string robot, string group, string msg)
+        public void SendGroupMessage(string robot, string group, string messages)
         {
-            Xqdll.SendMsgEX_V2(_authid, robot, 2, group, "", msg, 0, false, "");
+            Xqdll.SendMsgEX_V2(_authid, robot, 2, group, "", messages, 0, false, "");
         }
 
-        public void SendPrivateMessage(string robot, string qqid, PrivateMessageType messagetype, string msg, string group = "")
+        public void SendPrivateMessage(string robot, string qqid, PrivateMessageType messagetype, string messages, string group = "")
         {
-            Xqdll.SendMsgEX_V2(_authid, robot, (int)messagetype, group, qqid, msg, 0, false, "");
+            Xqdll.SendMsgEX_V2(_authid, robot, (int)messagetype, group, qqid, messages, 0, false, "");
         }
 
         /// <summary>
         ///     发送json结构消息
         /// </summary>
         /// <param name="robotQq"></param>
-        /// <param name="sendType"></param>
+        /// <param name="anon"></param>
         /// <param name="messageType"></param>
         /// <param name="group"></param>
         /// <param name="qq"></param>
         /// <param name="jsonMessage"></param>
-        public void SendJson(string robotQq, int sendType, int messageType, string group, string qq, string jsonMessage)
+        public void SendJson(string robotQq, bool anon, XqMessageEventType messageType, string group, string qq, string jsonMessage)
         {
-            Xqdll.SendJSON(_authid, robotQq, sendType, messageType, group, qq, jsonMessage);
+            Xqdll.SendJSON(_authid, robotQq, anon ? 1 : 2, (int)messageType, group, qq, jsonMessage);
         }
 
         /// <summary>
         ///     发送xml结构消息
         /// </summary>
         /// <param name="robotQq"></param>
-        /// <param name="sendType"></param>
+        /// <param name="anon"></param>
         /// <param name="messageType"></param>
         /// <param name="group"></param>
         /// <param name="qq"></param>
         /// <param name="xmlMessage"></param>
-        public void SendXml(string robotQq, int sendType, int messageType, string group, string qq, string xmlMessage)
+        public void SendXml(string robotQq, bool anon, XqMessageEventType messageType, string group, string qq, string xmlMessage)
         {
-            Xqdll.SendXML(_authid, robotQq, sendType, messageType, group, qq, xmlMessage);
+            Xqdll.SendXML(_authid, robotQq, anon ? 1 : 2, (int)messageType, group, qq, xmlMessage);
         }
 
 
@@ -65,9 +69,9 @@ namespace XQ.SDK.XQ
         /// </summary>
         /// <param name="qq"></param>
         /// <returns></returns>
-        public List<FriendInfo> GetFriendList(string qq)
+        public List<FriendInfoJson> GetFriendList(string qq)
         {
-            return JsonConvert.DeserializeObject<FriendList>(IntPtrToString(Xqdll.GetFriendList(_authid, qq))).GetList();
+            return JsonConvert.DeserializeObject<FriendList>(Xqdll.GetFriendList(_authid, qq).IntPtrToString()).GetList();
         }
 
         /// <summary>
@@ -75,9 +79,9 @@ namespace XQ.SDK.XQ
         /// </summary>
         /// <param name="qq"></param>
         /// <returns></returns>
-        public List<GroupInfo> GetGroupList(string qq)
+        public List<GroupInfoJson> GetGroupList(string qq)
         {
-            return JsonConvert.DeserializeObject<GroupList>(IntPtrToString(Xqdll.GetGroupList(_authid, qq))).List;
+            return JsonConvert.DeserializeObject<GroupList>(Xqdll.GetGroupList(_authid, qq).IntPtrToString()).List;
         }
 
         /// <summary>
@@ -89,7 +93,7 @@ namespace XQ.SDK.XQ
         /// <returns>群成员名片</returns>
         public string GetGroupCard(string robotQq, string group, string qq)
         {
-            return IntPtrToString(Xqdll.GetGroupCard(_authid, robotQq, group, qq));
+            return Xqdll.GetGroupCard(_authid, robotQq, group, qq).IntPtrToString();
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public List<string> GetGroupAdmin(string robotQq, string group)
         {
-            return ToList(IntPtrToString(Xqdll.GetGroupAdmin(_authid, robotQq, group)));
+            return Xqdll.GetGroupAdmin(_authid, robotQq, group).IntPtrToString().SplitToList();
         }
 
         /// <summary>
@@ -147,7 +151,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetPicLink(string robotQq, int imageType, string group, ImageMessageObject imageGuid)
         {
-            return IntPtrToString(Xqdll.GetPicLink(_authid, robotQq, imageType, group, imageGuid));
+            return Xqdll.GetPicLink(_authid, robotQq, imageType, group, imageGuid.ToSendString()).IntPtrToString();
         }
 
         /// <summary>
@@ -158,7 +162,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetNick(string robotQq, string qq)
         {
-            return IntPtrToString(Xqdll.GetNick(_authid, robotQq, qq));
+            return Xqdll.GetNick(_authid, robotQq, qq).IntPtrToString();
         }
 
         /// <summary>
@@ -170,7 +174,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetFriendsRemark(string robotQq, string qq)
         {
-            return IntPtrToString(Xqdll.GetFriendsRemark(_authid, robotQq, qq));
+            return Xqdll.GetFriendsRemark(_authid, robotQq, qq).IntPtrToString();
         }
 
         /// <summary>
@@ -180,7 +184,7 @@ namespace XQ.SDK.XQ
         /// <returns>用换行符分割的群号</returns>
         public List<string> GetGroupList_NumberOnly(string robotQq)
         {
-            return ToList(IntPtrToString(Xqdll.GetGroupList_B(_authid, robotQq)));
+            return Xqdll.GetGroupList_B(_authid, robotQq).IntPtrToString().SplitToList();
         }
 
         /// <summary>
@@ -190,7 +194,7 @@ namespace XQ.SDK.XQ
         /// <returns>用换行符分割的好友qq</returns>
         public List<string> GetFriendList_NumberOnly(string robotQq)
         {
-            return ToList(IntPtrToString(Xqdll.GetFriendList_B(_authid, robotQq)));
+            return Xqdll.GetFriendList_B(_authid, robotQq).IntPtrToString().SplitToList();
         }
 
         /// <summary>
@@ -201,7 +205,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string GetGroupName(string robotQq, string group)
         {
-            return IntPtrToString(Xqdll.GetGroupName(_authid, robotQq, group));
+            return Xqdll.GetGroupName(_authid, robotQq, group).IntPtrToString();
         }
 
         /// <summary>
@@ -213,7 +217,7 @@ namespace XQ.SDK.XQ
         /// 
         public (string, string) GetGroupMemberNum(string robotQq, string group)
         {
-            var list = ToList(IntPtrToString(Xqdll.GetGroupMemberNum(_authid, robotQq, group)));
+            var list = Xqdll.GetGroupMemberNum(_authid, robotQq, group).IntPtrToString().SplitToList();
             return (list[0], list[1]);
         }
 
@@ -223,9 +227,9 @@ namespace XQ.SDK.XQ
         /// <param name="robotQq"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        public List<GroupMemberInfo> GetGroupMemberList(string robotQq, string group)
+        public Dictionary<string,GroupMemberInfoJson> GetGroupMemberList(string robotQq, string group)
         {
-            return JsonConvert.DeserializeObject<GroupMemberList>(IntPtrToString(Xqdll.GetGroupMemberList_B(_authid, robotQq, group))).GetList();
+            return JsonConvert.DeserializeObject<GroupMemberList>(Xqdll.GetGroupMemberList_B(_authid, robotQq, group).IntPtrToString()).Members;
         }
 
         /// <summary>
@@ -236,7 +240,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public List<string> GetGroupMemberList_NumberOnly(string robotQq, string group)
         {
-            return JsonConvert.DeserializeObject<GroupMemberListQqonly>(IntPtrToString(Xqdll.GetGroupMemberList_C(_authid, robotQq, group)))
+            return JsonConvert.DeserializeObject<GroupMemberListQqonly>(Xqdll.GetGroupMemberList_C(_authid, robotQq, group).IntPtrToString())
                 .List.Select(i => i.Qq).ToList();
         }
 
@@ -283,7 +287,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public ImageMessageObject UpLoadPic(string robotQq, int messageType, string groupOrQq, byte[] message)
         {
-            return IntPtrToString(Xqdll.UpLoadPic(_authid, robotQq, messageType, groupOrQq, message));
+            return Xqdll.UpLoadPic(_authid, robotQq, messageType, groupOrQq, message).IntPtrToString();
         }
 
         /// <summary>
@@ -331,7 +335,7 @@ namespace XQ.SDK.XQ
         /// <param name="messageTitle"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public bool PublishGroupNotic(string robotQq, string group, string messageTitle, string message)
+        public bool PublishGroupNotice(string robotQq, string group, string messageTitle, string message)
         {
             return Xqdll.PBGroupNotic(_authid, robotQq, group, messageTitle, message);
         }
@@ -345,7 +349,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public List<OcrItem> OcrPic(string robotQq, ImageMessageObject imageMessage)
         {
-            return JsonConvert.DeserializeObject<OcrInfo>(IntPtrToString(Xqdll.OcrPic(_authid, robotQq, imageMessage.ToBytes()))).List;
+            return JsonConvert.DeserializeObject<OcrInfo>(Xqdll.OcrPic(_authid, robotQq, imageMessage.ToBytes()).IntPtrToString()).List;
         }
 
         /// <summary>
@@ -440,7 +444,7 @@ namespace XQ.SDK.XQ
         /// <returns>返回群号</returns>
         public string CreateGroup(string robotQq)
         {
-            return IntPtrToString(Xqdll.CreateDisGroup(_authid, robotQq));
+            return Xqdll.CreateDisGroup(_authid, robotQq).IntPtrToString();
         }
 
         /// <summary>
@@ -480,9 +484,9 @@ namespace XQ.SDK.XQ
         /// </summary>
         /// <param name="robotQq"></param>
         /// <param name="messageType"></param>
-        public void Setcation(string robotQq, int messageType)
+        public void SetCation(string robotQq, XqFriendAddRequestType messageType)
         {
-            Xqdll.Setcation(_authid, robotQq, messageType);
+            Xqdll.Setcation(_authid, robotQq, (int)messageType);
         }
 
         /// <summary>
@@ -529,9 +533,9 @@ namespace XQ.SDK.XQ
         /// <param name="group"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public XqMessageObject UpLoadVoice(string robotQq, int sendType, string group, byte[] message)
+        public VoiceMessageObject UpLoadVoice(string robotQq, int sendType, string group, byte[] message)
         {
-            return IntPtrToString(Xqdll.UpLoadVoice(_authid, robotQq, sendType, group, message));
+            return Xqdll.UpLoadVoice(_authid, robotQq, sendType, group, message).IntPtrToString();
         }
 
         /// <summary>
@@ -540,9 +544,9 @@ namespace XQ.SDK.XQ
         /// <param name="robotQq"></param>
         /// <param name="message"></param>
         /// <returns>silk格式的文件链接</returns>
-        public string GetVoiLink(string robotQq, string message)
+        public string GetVoiLink(string robotQq, VoiceMessageObject message)
         {
-            return IntPtrToString(Xqdll.GetVoiLink(_authid, robotQq, message));
+            return Xqdll.GetVoiLink(_authid, robotQq, message.ToSendString()).IntPtrToString();
         }
 
         /// <summary>
@@ -555,7 +559,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string VoiToText(string robotQq, string ckdx, int cklx, VoiceMessageObject yyGuid)
         {
-            return IntPtrToString(Xqdll.VoiToText(_authid, robotQq, ckdx, cklx, yyGuid));
+            return Xqdll.VoiToText(_authid, robotQq, ckdx, cklx, yyGuid.ToSendString()).IntPtrToString();
         }
 
         /// <summary>
@@ -607,8 +611,8 @@ namespace XQ.SDK.XQ
         public string WithdrawMsg(string robotQq, int withdrawType, string group, string qq, string messageNumber,
             string messageId, string messageTime)
         {
-            return IntPtrToString(Xqdll.WithdrawMsgEX(_authid, robotQq, withdrawType, group, qq, messageNumber,
-                messageId, messageTime));
+            return Xqdll.WithdrawMsgEX(_authid, robotQq, withdrawType, group, qq, messageNumber,
+                messageId, messageTime).IntPtrToString();
         }
     }
 }

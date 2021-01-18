@@ -1,4 +1,6 @@
-﻿using XQ.SDK.Enum;
+﻿using XQ.SDK.Core;
+using XQ.SDK.Enum;
+using XQ.SDK.Enum.Event;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
@@ -10,17 +12,17 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public string FromGroup => RawEvent.From;
+        public Group FromGroup => RawEvent.From == null ? null : new Group(XqApi, Robot, RawEvent.From);
 
-        public void SendPrivateMessage(string msg)
+        public void SendGroupMessage(params object[] msg)
         {
-            XqApi.TencentApi.SendPrivateMessage(RawEvent.RobotQq, FromQq, PrivateMessageType.TempGroupMessage, msg,
-                FromGroup);
+            XqApi.TencentApi.SendGroupMessage(RawEvent.RobotQq, FromGroup, msg.ToSend());
         }
 
-        public void SendGroupMessage(string msg)
+        public void SendPrivateMessage(params object[] msg)
         {
-            XqApi.TencentApi.SendGroupMessage(RawEvent.RobotQq, FromGroup, msg);
+            XqApi.TencentApi.SendPrivateMessage(Robot, FromQq, PrivateMessageType.TempGroupMessage, msg.ToSend(),
+                Type == XqMessageEventType.TempGroupMessage ? RawEvent.From : "");
         }
     }
 }
