@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 using Newtonsoft.Json;
-
 using XQ.SDK.Enum;
 using XQ.SDK.Enum.Event;
 using XQ.SDK.Model;
 using XQ.SDK.XQ.Json;
-
 using static XQ.SDK.Core.Expand;
 
 namespace XQ.SDK.XQ

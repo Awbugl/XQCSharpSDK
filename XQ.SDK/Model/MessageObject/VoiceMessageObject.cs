@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
+﻿using System.Text.RegularExpressions;
 using XQ.SDK.Interface;
 
 namespace XQ.SDK.Model
@@ -13,6 +10,11 @@ namespace XQ.SDK.Model
         public VoiceMessageObject(string sendString)
         {
             _sendString = sendString;
+        }
+
+        public string ToSendString()
+        {
+            return _sendString;
         }
 
         public static implicit operator VoiceMessageObject(string str)
@@ -36,11 +38,6 @@ namespace XQ.SDK.Model
             {
                 return null;
             }
-        }
-
-        public string ToSendString()
-        {
-            return _sendString;
         }
     }
 }

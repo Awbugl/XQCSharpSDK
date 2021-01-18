@@ -5,10 +5,7 @@ namespace XQ.SDK.Model
 {
     public class Qq : BasisModel
     {
-        /// <summary>
-        ///     QQ号
-        /// </summary>
-        public string Id { get; }
+        private string _name;
 
         public Qq(XqApi api, Robot Robot, string id) : base(api, Robot)
         {
@@ -20,7 +17,10 @@ namespace XQ.SDK.Model
             _name = name;
         }
 
-        private string _name;
+        /// <summary>
+        ///     QQ号
+        /// </summary>
+        public string Id { get; }
 
         /// <summary>
         ///     昵称
@@ -35,7 +35,7 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     性别
         /// </summary>
-        public XqSexType Gender => (XqSexType)XqApi.TencentApi.GetGender(Robot, Id);
+        public XqSexType Gender => (XqSexType) XqApi.TencentApi.GetGender(Robot, Id);
 
         /// <summary>
         ///     赞数量
@@ -45,30 +45,48 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     查询是否是好友
         /// </summary>
-        public bool IfFriend() => XqApi.TencentApi.IfFriend(Robot, Id);
+        public bool IfFriend()
+        {
+            return XqApi.TencentApi.IfFriend(Robot, Id);
+        }
 
         /// <summary>
         ///     删除好友
         /// </summary>
-        public void DeleteFriend() => XqApi.TencentApi.DelFriend(Robot, Id);
+        public void DeleteFriend()
+        {
+            XqApi.TencentApi.DelFriend(Robot, Id);
+        }
 
         /// <summary>
         ///     添加好友
         /// </summary>
         /// <param name="msg">验证消息</param>
-        public bool AddFriend(string msg) => XqApi.TencentApi.AddFriend(Robot, Id, msg, 1);
+        public bool AddFriend(string msg)
+        {
+            return XqApi.TencentApi.AddFriend(Robot, Id, msg, 1);
+        }
 
         /// <summary>
         ///     修改好友备注名称
         /// </summary>
         /// <param name="remark">备注</param>
-        public void SetRemark(string remark) => XqApi.TencentApi.SetFriendsRemark(Robot, Id, remark);
+        public void SetRemark(string remark)
+        {
+            XqApi.TencentApi.SetFriendsRemark(Robot, Id, remark);
+        }
 
         /// <summary>
         ///     向好友发送窗口抖动消息
         /// </summary>
-        public void ShakeWindow() => XqApi.TencentApi.ShakeWindow(Robot, Id);
+        public void ShakeWindow()
+        {
+            XqApi.TencentApi.ShakeWindow(Robot, Id);
+        }
 
-        public static implicit operator string(Qq qq) => qq.Id;
+        public static implicit operator string(Qq qq)
+        {
+            return qq.Id;
+        }
     }
 }

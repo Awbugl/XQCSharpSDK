@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using XQ.SDK.Interface;
 
 namespace XQ.SDK.Core
@@ -16,7 +15,7 @@ namespace XQ.SDK.Core
     {
         public static List<string> SplitToList(this string str)
         {
-            return str.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
+            return str.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
         }
 
         /// <summary>
@@ -69,12 +68,13 @@ namespace XQ.SDK.Core
         {
             try
             {
+                if (intPtr == IntPtr.Zero) return "";
                 var gb18030 = Encoding.GetEncoding("gb18030");
                 var length = Marshal.ReadInt32(intPtr);
                 if (length <= 0) return "";
 
                 var bin = new byte[length];
-                Marshal.Copy(intPtr + 4, bin, 0, length);
+                Marshal.Copy(IntPtr.Add(intPtr, 4), bin, 0, length);
 
                 var sb = new StringBuilder();
 
@@ -110,19 +110,19 @@ namespace XQ.SDK.Core
 
         public static DateTime ToDateTime(this int unixTime)
         {
-            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).Add(new TimeSpan(long.Parse($"{unixTime}0000000")));
+            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1))
+                .Add(new TimeSpan(long.Parse($"{unixTime}0000000")));
         }
 
         /// <summary>
-        /// 将对象转换为可发送的字符串, 如果待转换的对象继承自 <see cref="IToSendString"/> 将使用该接口的方法获取字符串
+        ///     将对象转换为可发送的字符串, 如果待转换的对象继承自 <see cref="IToSendString" /> 将使用该接口的方法获取字符串
         /// </summary>
         /// <param name="objects">消息参数</param>
         /// <returns>可发送的字符串</returns>
         public static string ToSend(this object[] objects)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             foreach (var t in objects)
-            {
                 switch (t)
                 {
                     case null:
@@ -134,7 +134,7 @@ namespace XQ.SDK.Core
                         builder.Append(t);
                         break;
                 }
-            }
+
             return builder.ToString();
         }
     }

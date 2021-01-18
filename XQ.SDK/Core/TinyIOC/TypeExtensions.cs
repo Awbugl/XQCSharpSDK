@@ -43,13 +43,13 @@ namespace XQ.SDK.Core
             Type[] genericTypes, Type[] parameterTypes)
         {
             var validMethods = from method in sourceType.GetMethods(bindingFlags)
-                                where method.Name == methodName
-                                where method.IsGenericMethod
-                                where method.GetGenericArguments().Length == genericTypes.Length
-                                let genericMethod = method.MakeGenericMethod(genericTypes)
-                                where genericMethod.GetParameters().Count() == parameterTypes.Length
-                                where genericMethod.GetParameters().Select(pi => pi.ParameterType).SequenceEqual(parameterTypes)
-                                select genericMethod;
+                where method.Name == methodName
+                where method.IsGenericMethod
+                where method.GetGenericArguments().Length == genericTypes.Length
+                let genericMethod = method.MakeGenericMethod(genericTypes)
+                where genericMethod.GetParameters().Count() == parameterTypes.Length
+                where genericMethod.GetParameters().Select(pi => pi.ParameterType).SequenceEqual(parameterTypes)
+                select genericMethod;
 
             var methods = validMethods.ToList();
 
@@ -95,10 +95,7 @@ namespace XQ.SDK.Core
                 if (_parameterTypes.Length != cacheKey._parameterTypes.Length)
                     return false;
 
-                if (_genericTypes.Where((t, i) => t != cacheKey._genericTypes[i]).Any())
-                {
-                    return false;
-                }
+                if (_genericTypes.Where((t, i) => t != cacheKey._genericTypes[i]).Any()) return false;
 
                 return !_parameterTypes.Where((t, i) => t != cacheKey._parameterTypes[i]).Any();
             }

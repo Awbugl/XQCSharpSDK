@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using XQ.SDK.Enum;
 using XQ.SDK.XQ;
 using XQ.SDK.XQ.Json;
@@ -12,6 +11,11 @@ namespace XQ.SDK.Model
         private readonly XqApi _api;
 
         private readonly string _robotQq;
+
+
+        private List<Qq> _friendlist;
+
+        private List<Group> _grouplist;
 
         public Robot(XqApi api, string robotQq)
         {
@@ -25,9 +29,6 @@ namespace XQ.SDK.Model
         /// </summary>
         public PsKeyApi PsKey { get; }
 
-
-        private List<Qq> _friendlist;
-
         /// <summary>
         ///     获取好友列表
         /// </summary>
@@ -35,11 +36,13 @@ namespace XQ.SDK.Model
         {
             try
             {
-                return _friendlist ??= _api.TencentApi.GetFriendList(_robotQq).Select(i => new Qq(_api, this, i.Id, i.Name)).ToList();
+                return _friendlist ??= _api.TencentApi.GetFriendList(_robotQq)
+                    .Select(i => new Qq(_api, this, i.Id, i.Name)).ToList();
             }
             catch
             {
-                return _friendlist ??= _api.TencentApi.GetFriendList_NumberOnly(_robotQq).Select(i => new Qq(_api, this, i)).ToList();
+                return _friendlist ??= _api.TencentApi.GetFriendList_NumberOnly(_robotQq)
+                    .Select(i => new Qq(_api, this, i)).ToList();
             }
         }
 
@@ -47,14 +50,18 @@ namespace XQ.SDK.Model
         ///     创建群
         /// </summary>
         /// <returns>返回创建群的群号</returns>
-        public string CreateGroup() => _api.TencentApi.CreateGroup(_robotQq);
+        public string CreateGroup()
+        {
+            return _api.TencentApi.CreateGroup(_robotQq);
+        }
 
         /// <summary>
         ///     修改机器人自身头像
         /// </summary>
-        public bool SetHeadPic(ImageMessageObject obj) => _api.TencentApi.SetHeadPic(_robotQq, obj.ToBytes());
-
-        private List<Group> _grouplist;
+        public bool SetHeadPic(ImageMessageObject obj)
+        {
+            return _api.TencentApi.SetHeadPic(_robotQq, obj.ToBytes());
+        }
 
         /// <summary>
         ///     获取群列表
@@ -63,11 +70,13 @@ namespace XQ.SDK.Model
         {
             try
             {
-                return _grouplist ??= _api.TencentApi.GetGroupList(_robotQq).Select(i => new Group(_api, this, i)).ToList();
+                return _grouplist ??= _api.TencentApi.GetGroupList(_robotQq).Select(i => new Group(_api, this, i))
+                    .ToList();
             }
             catch
             {
-                return _grouplist ??= _api.TencentApi.GetGroupList_NumberOnly(_robotQq).Select(i => new Group(_api, this, i)).ToList();
+                return _grouplist ??= _api.TencentApi.GetGroupList_NumberOnly(_robotQq)
+                    .Select(i => new Group(_api, this, i)).ToList();
             }
         }
 
@@ -85,7 +94,7 @@ namespace XQ.SDK.Model
         /// <param name="onLineType">在线状态类型</param>
         public void SetOnlineStatus(XqOnlineStatusType onLineType)
         {
-            _api.FrameApi.SetRInf(_robotQq, $"{(int)onLineType}", "");
+            _api.FrameApi.SetRInf(_robotQq, $"{(int) onLineType}", "");
         }
 
         /// <summary>
@@ -103,7 +112,7 @@ namespace XQ.SDK.Model
         /// <param name="type">性别</param>
         public void SetSex(XqSexType type)
         {
-            _api.FrameApi.SetRInf(_robotQq, "9", $"{(int)type}");
+            _api.FrameApi.SetRInf(_robotQq, "9", $"{(int) type}");
         }
 
         /// <summary>
@@ -111,7 +120,10 @@ namespace XQ.SDK.Model
         /// </summary>
         /// <param name="group">被邀请加入的群号</param>
         /// <param name="qq"></param>
-        public void InviteFriendInfoGroup(string group, string qq) => _api.TencentApi.InviteGroup(_robotQq, group, qq);
+        public void InviteFriendInfoGroup(string group, string qq)
+        {
+            _api.TencentApi.InviteGroup(_robotQq, group, qq);
+        }
 
 
         /// <summary>
@@ -120,7 +132,10 @@ namespace XQ.SDK.Model
         /// <param name="group">邀请到哪个群</param>
         /// <param name="groupY">被邀请成员所在群</param>
         /// <param name="qq">被邀请人的QQ</param>
-        public bool InviteGroupMemberInfoGroup(string group, string groupY, string qq) => _api.TencentApi.InviteGroupMember(_robotQq, group, groupY, qq);
+        public bool InviteGroupMemberInfoGroup(string group, string groupY, string qq)
+        {
+            return _api.TencentApi.InviteGroupMember(_robotQq, group, groupY, qq);
+        }
 
 
         /// <summary>
@@ -128,19 +143,28 @@ namespace XQ.SDK.Model
         /// </summary>
         /// <param name="group">群号</param>
         /// <param name="message">附加理由，可留空（需回答正确问题时，请填写问题答案</param>
-        public void JoinGroup(string group, string message) => _api.TencentApi.JoinGroup(_robotQq, group, message);
+        public void JoinGroup(string group, string message)
+        {
+            _api.TencentApi.JoinGroup(_robotQq, group, message);
+        }
 
         /// <summary>
         ///     设置机器人被添加好友时的验证方式
         /// </summary>
-        public void SetCation(string group, XqFriendAddRequestType type) => _api.TencentApi.SetCation(_robotQq, type);
+        public void SetCation(string group, XqFriendAddRequestType type)
+        {
+            _api.TencentApi.SetCation(_robotQq, type);
+        }
 
         /// <summary>
         ///     设置机器人被添加好友时的问题与答案
         /// </summary>
         /// <param name="problem">设置的问题</param>
         /// <param name="answer">设置的问题答案 </param>
-        public void SetCationWithQuestion(string problem, string answer) => _api.TencentApi.Setcation_problem_A(_robotQq, problem, answer);
+        public void SetCationWithQuestion(string problem, string answer)
+        {
+            _api.TencentApi.Setcation_problem_A(_robotQq, problem, answer);
+        }
 
         /// <summary>
         ///     设置机器人被添加好友时的三个可选问题
@@ -148,7 +172,15 @@ namespace XQ.SDK.Model
         /// <param name="problem1">设置问题一</param>
         /// <param name="problem2">设置问题二</param>
         /// <param name="problem3">设置问题三</param>
-        public void SetCationWithThreeQuestion(string problem1, string problem2, string problem3) => _api.TencentApi.Setcation_problem_B(_robotQq, problem1, problem2, problem3);
+        public void SetCationWithThreeQuestion(string problem1, string problem2, string problem3)
+        {
+            _api.TencentApi.Setcation_problem_B(_robotQq, problem1, problem2, problem3);
+        }
+
+        public static implicit operator string(Robot robot)
+        {
+            return robot._robotQq;
+        }
 
         public class PsKeyApi
         {
@@ -248,7 +280,5 @@ namespace XQ.SDK.Model
                 return _api.PsKeyApi.GetBkn(_robotQq);
             }
         }
-
-        public static implicit operator string(Robot robot) => robot._robotQq;
     }
 }

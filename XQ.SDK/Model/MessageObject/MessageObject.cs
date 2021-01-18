@@ -1,5 +1,4 @@
 ﻿using System;
-
 using XQ.SDK.Interface;
 
 namespace XQ.SDK.Model
@@ -26,7 +25,15 @@ namespace XQ.SDK.Model
             _sendString = sendString;
         }
 
-        public static explicit operator XqMessageObject(string str) => new XqMessageObject(str);
+        public string ToSendString()
+        {
+            return _sendString;
+        }
+
+        public static explicit operator XqMessageObject(string str)
+        {
+            return new XqMessageObject(str);
+        }
 
         public XqMessageObject RandomNumber(int begin, int end)
         {
@@ -47,11 +54,6 @@ namespace XQ.SDK.Model
         public XqMessageObject Face(int number)
         {
             return new XqMessageObject($"[Face{number}.gif]");
-        }
-
-        public string ToSendString()
-        {
-            return _sendString;
         }
     }
 }

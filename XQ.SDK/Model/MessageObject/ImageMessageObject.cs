@@ -25,13 +25,18 @@ namespace XQ.SDK.Model
 
         private string Rawmsg => _sendString.Substring(5, _sendString.Length - 6);
 
+        public string ToSendString()
+        {
+            return _sendString;
+        }
+
         public static implicit operator ImageMessageObject(string str)
         {
             return new ImageMessageObject(str);
         }
 
         /// <summary>
-        /// 请使用绝对路径
+        ///     请使用绝对路径
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
@@ -47,7 +52,7 @@ namespace XQ.SDK.Model
 
         public XqMessageObject ToShowPic(XqShowPicType type)
         {
-            return new XqMessageObject(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int)type}]");
+            return new XqMessageObject(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int) type}]");
         }
 
         public XqMessageObject ToFlashPic()
@@ -92,7 +97,7 @@ namespace XQ.SDK.Model
                     ? new FileStream(Rawmsg, FileMode.Open, FileAccess.Read)
                     : GetFromWeb();
                 binaryWriter = new BinaryReader(fs);
-                return binaryWriter.ReadBytes((int)fs.Length);
+                return binaryWriter.ReadBytes((int) fs.Length);
             }
             finally
             {
@@ -131,11 +136,6 @@ namespace XQ.SDK.Model
             {
                 i?.Dispose();
             }
-        }
-
-        public string ToSendString()
-        {
-            return _sendString;
         }
     }
 }

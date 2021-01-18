@@ -56,8 +56,6 @@
 #endif
 
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,7 +153,7 @@ namespace XQ.SDK.Core
         public TResolveType Resolve<TResolveType>()
             where TResolveType : class
         {
-            return (TResolveType)Resolve(typeof(TResolveType));
+            return (TResolveType) Resolve(typeof(TResolveType));
         }
 
 
@@ -309,7 +307,6 @@ namespace XQ.SDK.Core
 
             public SingletonFactory(Type registerType, Type registerImplementation)
             {
-
                 if (registerImplementation.IsAbstract() || registerImplementation.IsInterface())
                     throw new TinyIoCRegistrationTypeException(registerImplementation, "SingletonFactory");
 
@@ -571,8 +568,9 @@ namespace XQ.SDK.Core
             var openTypeRegistration = new TypeRegistration(registration.Type,
                 registration.Name);
 
-            return _parent._registeredTypes.TryGetValue(openTypeRegistration, out factory) ? factory.GetFactoryForChildContainer(openTypeRegistration.Type, _parent, this) : _parent.GetParentObjectFactory(registration);
-
+            return _parent._registeredTypes.TryGetValue(openTypeRegistration, out factory)
+                ? factory.GetFactoryForChildContainer(openTypeRegistration.Type, _parent, this)
+                : _parent.GetParentObjectFactory(registration);
         }
 
         private object ResolveInternal(TypeRegistration registration, NamedParameterOverloads parameters,
@@ -681,15 +679,15 @@ namespace XQ.SDK.Core
                 return null;
 
             var genericType = type.GetGenericTypeDefinition();
-            
+
             var genericArguments = type.GetGenericArguments();
-            
+
             // Just a func
             if (genericType == typeof(Func<>))
             {
                 var returnType = genericArguments[0];
 
-              
+
                 var resolveMethod = typeof(TinyIoCContainer).GetMethod("Resolve", new Type[] { });
 
                 if (!(resolveMethod is null))
@@ -708,8 +706,8 @@ namespace XQ.SDK.Core
             if (genericType == typeof(Func<,>) && genericArguments[0] == typeof(string))
             {
                 var returnType = genericArguments[1];
-                
-                var resolveMethod = typeof(TinyIoCContainer).GetMethod("Resolve", new Type[] { typeof(string) });
+
+                var resolveMethod = typeof(TinyIoCContainer).GetMethod("Resolve", new Type[] {typeof(string)});
 
                 if (!(resolveMethod is null))
                 {
@@ -733,9 +731,9 @@ namespace XQ.SDK.Core
                 var name = Expression.Parameter(typeof(string), "name");
                 var parameters = Expression.Parameter(typeof(IDictionary<string, object>), "parameters");
 
-               
+
                 var resolveMethod = typeof(TinyIoCContainer).GetMethod("Resolve",
-                    new Type[] { typeof(string), typeof(NamedParameterOverloads) });
+                    new Type[] {typeof(string), typeof(NamedParameterOverloads)});
                 if (resolveMethod is null) throw new TinyIoCResolutionException(type);
                 resolveMethod = resolveMethod.MakeGenericMethod(returnType);
 
@@ -751,9 +749,9 @@ namespace XQ.SDK.Core
         private object GetIEnumerableRequest(Type type)
         {
             var genericResolveAllMethod = GetType().GetGenericMethod(BindingFlags.Public | BindingFlags.Instance,
-                "ResolveAll", type.GetGenericArguments(), new[] { typeof(bool) });
-         
-            return genericResolveAllMethod.Invoke(this, new object[] { false });
+                "ResolveAll", type.GetGenericArguments(), new[] {typeof(bool)});
+
+            return genericResolveAllMethod.Invoke(this, new object[] {false});
         }
 
         private bool CanConstruct(ConstructorInfo ctor, NamedParameterOverloads parameters, ResolveOptions options)
@@ -768,9 +766,9 @@ namespace XQ.SDK.Core
 
                 var isParameterOverload = parameters.ContainsKey(parameter.Name);
 
-              
+
                 if (parameter.ParameterType.IsPrimitive() && !isParameterOverload)
-                    
+
                     return false;
 
                 if (!isParameterOverload && !CanResolveInternal(new TypeRegistration(parameter.ParameterType),
@@ -810,7 +808,7 @@ namespace XQ.SDK.Core
                 candidateCtors = attributeCtors;
 
             return candidateCtors.OrderByDescending(ctor => ctor.GetParameters().Length);
-          }
+        }
 
         private object ConstructType(Type requestedType, Type implementationType, ConstructorInfo constructor,
             ResolveOptions options)
@@ -920,7 +918,7 @@ namespace XQ.SDK.Core
 
             var constructionLambda = Expression.Lambda(typeof(ObjectConstructor), newExpression, lambdaParams);
 
-            objectConstructor = (ObjectConstructor)constructionLambda.Compile();
+            objectConstructor = (ObjectConstructor) constructionLambda.Compile();
 
             ObjectConstructorCache[constructor] = objectConstructor;
             return objectConstructor;

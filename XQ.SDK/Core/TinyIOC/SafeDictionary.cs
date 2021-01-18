@@ -38,8 +38,8 @@ namespace XQ.SDK.Core
             try
             {
                 var disposableItems = from item in _dictionary.Values
-                                      where item is IDisposable
-                                      select item as IDisposable;
+                    where item is IDisposable
+                    select item as IDisposable;
 
                 foreach (var item in disposableItems) item.Dispose();
             }
