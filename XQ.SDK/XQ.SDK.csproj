@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B6664A8-E436-4B35-9040-8247DE86EC89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XQ.SDK</RootNamespace>
+    <AssemblyName>XQ.SDK</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Expand.cs" />
+    <Compile Include="Core\Kernel32.cs" />
+    <Compile Include="Core\TinyIoC.cs" />
+    <Compile Include="Core\XqPluginInfo.cs" />
+    <Compile Include="Enum\Event\XqFrameEventType.cs" />
+    <Compile Include="Enum\Event\XqFrameRobotQqEventType.cs" />
+    <Compile Include="Enum\Event\XqFriendEventType.cs" />
+    <Compile Include="Enum\Event\XqGroupEventType.cs" />
+    <Compile Include="Enum\Event\XqMessageEventType.cs" />
+    <Compile Include="Enum\PrivateMessageType.cs" />
+    <Compile Include="Enum\WithdrawMessageType.cs" />
+    <Compile Include="Enum\XqEventReturnType.cs" />
+    <Compile Include="Enum\XqFriendAddRequestType.cs" />
+    <Compile Include="Enum\XqFriendRequestHandlerType.cs" />
+    <Compile Include="Enum\XqGroupRequestHandlerType.cs" />
+    <Compile Include="Enum\XqOnlineStatusType.cs" />
+    <Compile Include="Enum\XqQrCodeType.cs" />
+    <Compile Include="Enum\XqShowPicType.cs" />
+    <Compile Include="EventArgs\XqEventArgs.cs" />
+    <Compile Include="EventArgs\XqFrameEventArgs.cs" />
+    <Compile Include="EventArgs\XqFrameRobotQqEventArgs.cs" />
+    <Compile Include="EventArgs\XqFriendAddEventArgs.cs" />
+    <Compile Include="EventArgs\XqFriendEventArgs.cs" />
+    <Compile Include="EventArgs\XqGroupAddEventArgs.cs" />
+    <Compile Include="EventArgs\XqGroupEchoMessageEventArgs.cs" />
+    <Compile Include="EventArgs\XqGroupEventArgs.cs" />
+    <Compile Include="EventArgs\XqGroupMessageEventArgs.cs" />
+    <Compile Include="EventArgs\XqMessageEventArgs.cs" />
+    <Compile Include="EventArgs\XqPrivateMessageEventArgs.cs" />
+    <Compile Include="EventArgs\XqTransferEventArgs.cs" />
+    <Compile Include="EventArgs\XqWithDrawMessageEventArgs.cs" />
+    <Compile Include="Interface\IAppDestroy.cs" />
+    <Compile Include="Interface\IAppDisable.cs" />
+    <Compile Include="Interface\IAppEnable.cs" />
+    <Compile Include="Interface\ICallMenu.cs" />
+    <Compile Include="Interface\IFrameEvent.cs" />
+    <Compile Include="Interface\IFriendAddRequest.cs" />
+    <Compile Include="Interface\IFriendEvent.cs" />
+    <Compile Include="Interface\IGroupAddRequest.cs" />
+    <Compile Include="Interface\IGroupEchoMessage.cs" />
+    <Compile Include="Interface\IGroupEvent.cs" />
+    <Compile Include="Interface\IGroupMessage.cs" />
+    <Compile Include="Interface\IOtherMessage.cs" />
+    <Compile Include="Interface\IPrivateMessage.cs" />
+    <Compile Include="Interface\IProcess.cs" />
+    <Compile Include="Interface\IRobotEvent.cs" />
+    <Compile Include="Interface\ITransferEvent.cs" />
+    <Compile Include="Interface\IWithDrawMessage.cs" />
+    <Compile Include="Model\MessageObject.cs" />
+    <Compile Include="Model\XqRawEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XQ\FrameApi.cs" />
+    <Compile Include="XQ\Json\FriendInfo.cs" />
+    <Compile Include="XQ\Json\FriendList.cs" />
+    <Compile Include="XQ\Json\GroupInfo.cs" />
+    <Compile Include="XQ\Json\GroupList.cs" />
+    <Compile Include="XQ\Json\GroupMemberInfo.cs" />
+    <Compile Include="XQ\Json\GroupMemberList.cs" />
+    <Compile Include="XQ\Json\OcrInfo.cs" />
+    <Compile Include="XQ\Json\OcrItem.cs" />
+    <Compile Include="XQ\Json\RobotInfo.cs" />
+    <Compile Include="XQ\PsKeyApi.cs" />
+    <Compile Include="XQ\TencentApi.cs" />
+    <Compile Include="XQ\XqApi.cs" />
+    <Compile Include="XQ\Xqdll.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
