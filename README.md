@@ -13,7 +13,7 @@
 ## 感谢
 
 * 整体SDK架构参考了<a href="https://github.com/Jie2GG/Native.Framework">Jie2GG/Native.Framework</a>
-* 一部分消息解析逻辑参考了<a href="https://github.com/w4123/CQXQ">w4123/CQXQ</a>
+* 部分消息解析逻辑参考了<a href="https://github.com/w4123/CQXQ">w4123/CQXQ</a>
 * XqDll.cs的使用授权由<a href="https://gitee.com/heerkaisair">赫尔heer</a>提供
 
 ## 开发文档
