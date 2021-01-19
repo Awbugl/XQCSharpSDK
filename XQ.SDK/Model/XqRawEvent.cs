@@ -51,13 +51,13 @@ namespace XQ.SDK.Model
 
         /// <summary>
         ///     消息序号
-        ///     暂定用于消息回复，消息撤回
+        ///     用于消息回复，消息撤回
         /// </summary>
         public string Index { get; }
 
         /// <summary>
         ///     消息ID
-        ///     暂定用于消息回复，消息撤回
+        ///     用于消息回复，消息撤回
         /// </summary>
         public string Msgid { get; }
 

@@ -62,7 +62,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace XQ.SDK.Core
+namespace XQ.SDK.Core.TinyIOC
 {
     public sealed class TinyIoCContainer : IDisposable
     {

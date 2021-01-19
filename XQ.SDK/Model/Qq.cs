@@ -1,34 +1,37 @@
 ﻿using System;
 using XQ.SDK.Enum;
-using XQ.SDK.Enum.Event;
 using XQ.SDK.XQ;
 
 namespace XQ.SDK.Model
 {
+    /// <summary>
+    ///     事件中的来源QQ、对象QQ等
+    /// </summary>
     public class Qq : BasisModel
     {
         private readonly int _extratype;
 
         private readonly string _fromgroup;
 
-        private readonly XqMessageEventType _type;
+        private readonly MessageType _type;
+
         private string _name;
 
-        public Qq(XqApi api, string robot, string id, XqMessageEventType type, string fromgroup) : base(api, robot)
+        public Qq(XqApi api, string robot, string id, MessageType type, string fromgroup) : base(api, robot)
         {
             Id = id;
             _type = type;
             _fromgroup = fromgroup;
         }
 
-        public Qq(XqApi api, string robot, string id, XqMessageEventType type, string fromgroup, int extratype) : this(
+        public Qq(XqApi api, string robot, string id, MessageType type, string fromgroup, int extratype) : this(
             api, robot, id, type, fromgroup)
         {
             _extratype = extratype;
         }
 
 
-        public Qq(XqApi api, string robot, string id, string name, XqMessageEventType type, string fromgroup) : this(
+        public Qq(XqApi api, string robot, string id, string name, MessageType type, string fromgroup) : this(
             api, robot, id, type, fromgroup)
         {
             _name = name;
@@ -52,7 +55,7 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     性别
         /// </summary>
-        public XqSexType Gender => XqApi.GetGender(Robot, Id);
+        public QqSex Gender => XqApi.GetGender(Robot, Id);
 
         /// <summary>
         ///     赞数量
@@ -81,7 +84,15 @@ namespace XQ.SDK.Model
         /// <param name="msg">验证消息</param>
         public bool AddFriend(string msg)
         {
-            return XqApi.AddFriend(Robot, Id, msg, 1);
+            return XqApi.AddFriend(Robot, Id, msg);
+        }
+
+        /// <summary>
+        ///     获取好友备注名称
+        /// </summary>
+        public void GetRemark()
+        {
+            XqApi.GetFriendsRemark(Robot, Id);
         }
 
         /// <summary>
@@ -109,20 +120,20 @@ namespace XQ.SDK.Model
         public void SendPrivateMessage(params object[] msg)
         {
             XqApi.SendPrivateMessage(Robot, Id, GetPrivateMessageType(_type),
-                _type == XqMessageEventType.TempGroupMessage ? _fromgroup : "", msg);
+                _type == MessageType.TempGroupMessage ? _fromgroup : "", msg);
         }
 
-        public PrivateMessageType GetPrivateMessageType(XqMessageEventType type)
+        private PrivateMessageType GetPrivateMessageType(MessageType type)
         {
             if (System.Enum.IsDefined(typeof(PrivateMessageType), type)) return (PrivateMessageType) type;
 
             switch (type)
             {
-                case XqMessageEventType.Group:
+                case MessageType.Group:
                     return IfFriend() ? PrivateMessageType.Friend : PrivateMessageType.TempGroupMessage;
-                case XqMessageEventType.MsgWithdrawn:
-                case XqMessageEventType.Transfer:
-                    return GetPrivateMessageType((XqMessageEventType) _extratype);
+                case MessageType.MsgWithdrawn:
+                case MessageType.Transfer:
+                    return GetPrivateMessageType((MessageType) _extratype);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

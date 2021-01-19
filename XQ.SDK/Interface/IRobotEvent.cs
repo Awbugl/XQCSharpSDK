@@ -3,14 +3,13 @@
 namespace XQ.SDK.Interface
 {
     /// <summary>
-    ///     框架Robot相关事件接口
+    ///     框架Robot事件事件接口
     /// </summary>
-    public interface IRobotEvent : IProcess
+    public interface IRobotEvent : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 框架Robot相关事件 回调
+        ///     处理框架Robot相关事件
         /// </summary>
-        /// <param name="e">附加的事件参数</param>
-        void RobotEvent(XqFrameRobotQqEventArgs e);
+        void RobotEvent(RobotEventEventArgs e);
     }
 }

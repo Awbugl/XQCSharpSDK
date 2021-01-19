@@ -5,12 +5,11 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     群聊消息事件接口
     /// </summary>
-    public interface IGroupMessage : IProcess
+    public interface IGroupMessage : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 处理 群聊消息事件 回调
+        ///     处理群聊消息事件
         /// </summary>
-        /// <param name="e">附加的事件参数</param>
-        void GroupMessage(XqGroupMessageEventArgs e);
+        void GroupMessage(GroupMessageEventArgs e);
     }
 }

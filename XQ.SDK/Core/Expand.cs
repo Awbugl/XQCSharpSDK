@@ -10,9 +10,15 @@ using XQ.SDK.Interface;
 
 namespace XQ.SDK.Core
 {
+    /// <summary>
+    ///     扩展函数
+    /// </summary>
     [SuppressMessage("ReSharper", "CommentTypo")]
     public static class Expand
     {
+        /// <summary>
+        ///     将以换行符分割的string转换为list
+        /// </summary>
         public static List<string> SplitToList(this string str)
         {
             return str.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
@@ -22,8 +28,6 @@ namespace XQ.SDK.Core
         ///     将IntPtrToString中未转换的[em]exxxxxx[/em]转换为Emoji码
         ///     代码逻辑来自w4123/CQXQ
         /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         private static string NickToSendString(this string msg)
         {
             var ret = new StringBuilder();
@@ -62,13 +66,11 @@ namespace XQ.SDK.Core
         /// <summary>
         ///     将Api返回的IntPtr转换为string和Emoji码
         /// </summary>
-        /// <param name="intPtr"></param>
-        /// <returns></returns>
         public static string IntPtrToString(this IntPtr intPtr)
         {
+            if (intPtr == IntPtr.Zero) return "";
             try
             {
-                if (intPtr == IntPtr.Zero) return "";
                 var gb18030 = Encoding.GetEncoding("gb18030");
                 var length = Marshal.ReadInt32(intPtr);
                 if (length <= 0) return "";

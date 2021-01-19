@@ -1,7 +1,7 @@
 ﻿namespace XQ.SDK.Enum
 {
     /// <summary>
-    ///     在处理XQEvent时的返回值类型
+    ///     XQEvent的返回值类型
     /// </summary>
     public enum XqEventReturnType
     {

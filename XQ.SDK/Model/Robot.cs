@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using XQ.SDK.Enum;
+using XQ.SDK.Model.Json;
+using XQ.SDK.Model.MessageObject;
 using XQ.SDK.XQ;
-using XQ.SDK.XQ.Json;
 
 namespace XQ.SDK.Model
 {
+    /// <summary>
+    ///     事件中的RobotQQ
+    /// </summary>
     public class Robot
     {
         private readonly XqApi _api;
@@ -49,7 +53,7 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     修改机器人自身头像
         /// </summary>
-        public bool SetHeadPic(ImageMessageObject obj)
+        public bool SetHeadPic(ImageMessage obj)
         {
             return _api.SetHeadPic(_robotQq, obj.ToBytes());
         }
@@ -74,7 +78,7 @@ namespace XQ.SDK.Model
         ///     修改机器人账号在线状态
         /// </summary>
         /// <param name="onLineType">在线状态类型</param>
-        public void SetOnlineStatus(XqOnlineStatusType onLineType)
+        public void SetOnlineStatus(OnlineStatusType onLineType)
         {
             _api.SetOnlineStatus(_robotQq, onLineType);
         }
@@ -92,7 +96,7 @@ namespace XQ.SDK.Model
         ///     修改机器人账号性别
         /// </summary>
         /// <param name="type">性别</param>
-        public void SetSex(XqSexType type)
+        public void SetSex(QqSex type)
         {
             _api.SetSex(_robotQq, type);
         }
@@ -133,7 +137,7 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     设置机器人被添加好友时的验证方式
         /// </summary>
-        public void SetCation(string group, XqFriendAddRequestType type)
+        public void SetCation(string group, FriendAddRequestType type)
         {
             _api.SetCation(_robotQq, type);
         }

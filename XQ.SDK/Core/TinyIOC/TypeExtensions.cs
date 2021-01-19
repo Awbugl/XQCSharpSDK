@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace XQ.SDK.Core
+namespace XQ.SDK.Core.TinyIOC
 {
     public static class TypeExtensions
     {

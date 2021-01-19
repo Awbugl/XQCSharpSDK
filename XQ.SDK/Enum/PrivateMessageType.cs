@@ -2,6 +2,9 @@
 
 namespace XQ.SDK.Enum
 {
+    /// <summary>
+    ///     私聊消息类型
+    /// </summary>
     public enum PrivateMessageType
     {
         /// <summary>

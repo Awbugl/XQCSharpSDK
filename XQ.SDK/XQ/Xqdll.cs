@@ -6,7 +6,7 @@ namespace XQ.SDK.XQ
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "CommentTypo")]
-    public static class Xqdll
+    public static class XqDll
     {
         private const string DllName = "xqapi.dll";
 

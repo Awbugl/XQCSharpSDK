@@ -1,4 +1,4 @@
-﻿namespace XQ.SDK.Core
+﻿namespace XQ.SDK.Core.TinyIOC
 {
     public enum NamedResolutionFailureActions
     {

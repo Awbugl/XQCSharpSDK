@@ -11,19 +11,19 @@ namespace XQ.Plugin
     /// </summary>
     public class PluginExample : IPrivateMessage, IGroupMessage, IGroupEvent, IGroupAddRequest
     {
-        public void GroupAddRequest(XqGroupAddEventArgs e)
+        public void GroupAddRequest(GroupAddRequestEventArgs e)
         {
         }
 
-        public void GroupEvent(XqGroupEventArgs e)
+        public void GroupEvent(GroupEventEventArgs e)
         {
         }
 
-        public void GroupMessage(XqGroupMessageEventArgs e)
+        public void GroupMessage(GroupMessageEventArgs e)
         {
         }
 
-        public void PrivateMessage(XqPrivateMessageEventArgs e)
+        public void PrivateMessage(PrivateMessageEventArgs e)
         {
         }
     }

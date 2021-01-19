@@ -5,12 +5,11 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     被邀请入群事件接口
     /// </summary>
-    public interface IGroupAddRequest : IProcess
+    public interface IGroupAddRequest : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 处理 被邀请入群事件 回调
+        ///     处理被邀请入群事件
         /// </summary>
-        /// <param name="e">附加的事件参数</param>
-        void GroupAddRequest(XqGroupAddEventArgs e);
+        void GroupAddRequest(GroupAddRequestEventArgs e);
     }
 }

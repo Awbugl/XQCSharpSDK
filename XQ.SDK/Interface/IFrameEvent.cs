@@ -5,12 +5,11 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     框架事件接口
     /// </summary>
-    public interface IFrameEvent : IProcess
+    public interface IFrameEvent : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 框架事件 回调
+        ///     处理框架事件
         /// </summary>
-        /// <param name="e">附加的事件参数</param>
-        void FrameEvent(XqFrameEventArgs e);
+        void FrameEvent(FrameEventArgs e);
     }
 }

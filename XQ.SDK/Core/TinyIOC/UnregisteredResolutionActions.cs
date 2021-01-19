@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace XQ.SDK.Core
+namespace XQ.SDK.Core.TinyIOC
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum UnregisteredResolutionActions

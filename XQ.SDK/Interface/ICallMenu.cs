@@ -5,10 +5,10 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     调用菜单事件接口
     /// </summary>
-    public interface ICallMenu : IProcess
+    public interface ICallMenu : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 处理 调用菜单事件 回调
+        ///     处理调用菜单事件
         /// </summary>
         void CallMenu(XqApi xqApi);
     }

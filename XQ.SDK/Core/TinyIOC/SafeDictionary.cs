@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace XQ.SDK.Core
+namespace XQ.SDK.Core.TinyIOC
 {
     public class SafeDictionary<TKey, TValue> : IDisposable
     {

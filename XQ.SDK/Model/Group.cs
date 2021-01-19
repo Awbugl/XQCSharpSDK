@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
-using XQ.SDK.Enum.Event;
+using XQ.SDK.Enum;
+using XQ.SDK.Model.Json;
 using XQ.SDK.XQ;
-using XQ.SDK.XQ.Json;
 
 namespace XQ.SDK.Model
 {
+    /// <summary>
+    ///     事件中的来源群
+    /// </summary>
     public class Group : BasisModel
     {
         private List<Qq> _adminList;
@@ -24,7 +27,7 @@ namespace XQ.SDK.Model
         {
             Id = info.Id;
             _name = info.Name;
-            _owner = new Qq(api, robotqq, info.Owner, XqMessageEventType.Group, info.Id);
+            _owner = new Qq(api, robotqq, info.Owner, MessageType.Group, info.Id);
         }
 
         /// <summary>
@@ -75,7 +78,6 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     查询是否允许发送匿名消息
         /// </summary>
-        /// <returns></returns>
         public bool GetAnon()
         {
             return XqApi.GetAnon(Robot, Id);
@@ -94,7 +96,7 @@ namespace XQ.SDK.Model
         ///     当Bot不为管理员时报错
         /// </summary>
         /// <param name="qq">群成员QQ</param>
-        /// <param name="allow">是否不在允许接受申请入群(true/false)</param>
+        /// <param name="allow">指定是否不再允许接受申请入群</param>
         public void KickGroupMember(Qq qq, bool allow)
         {
             XqApi.KickGroupMember(Robot, Id, qq.Id, allow);
@@ -105,7 +107,6 @@ namespace XQ.SDK.Model
         /// </summary>
         /// <param name="title">公告标题</param>
         /// <param name="message">公告内容</param>
-        /// <returns></returns>
         public bool PublishGroupNotice(string title, string message)
         {
             return XqApi.PublishGroupNotice(Robot, Id, title, message);
@@ -114,18 +115,37 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     修改群成员昵称
         /// </summary>
-        /// <returns></returns>
         public bool SetGroupCard(Qq qq, string card)
         {
             return XqApi.SetGroupCard(Robot, Id, qq.Id, card);
         }
 
         /// <summary>
+        ///     群禁言
+        /// </summary>
+        /// <param name="qq">对象QQ(为空则为全员禁言)</param>
+        /// <param name="time">禁言时间(单位:秒)(0:解除禁言)</param>
+        public void BanSpeak(Qq qq, int time)
+        {
+            XqApi.BanSpeak(Robot, Id, qq?.Id ?? "", time);
+        }
+
+        /// <summary>
+        ///     开关群匿名功能
+        /// </summary>
+        /// <param name="openOrClose">True 则开启群匿名 ，False 则关闭群匿名</param>
+        public bool SetAnon(bool openOrClose)
+        {
+            return XqApi.SetAnon(Robot, Id, openOrClose);
+        }
+
+        /// <summary>
         ///     屏蔽本群消息
         /// </summary>
-        public void ShieldThisGroup()
+        /// <param name="openOrClose">True 则屏蔽 ，False 则取消屏蔽</param>
+        public void ShieldThisGroup(bool openOrClose)
         {
-            XqApi.SetShieldedGroup(Robot, Id, true);
+            XqApi.SetShieldedGroup(Robot, Id, openOrClose);
         }
 
         /// <summary>

@@ -4,23 +4,29 @@ using XQ.SDK.XQ;
 namespace XQ.SDK.EventArgs
 {
     /// <summary>
-    ///     XQ事件的基类
+    ///     XQ事件的抽象基类
+    ///     对应IXqEvent接口
     /// </summary>
-    public class XqEventArgs
+    public abstract class XqEventArgs
     {
-        public XqEventArgs(XqApi xqApi, XqRawEvent rawEvent)
+        /// <summary>
+        ///     事件构造函数
+        /// </summary>
+        /// <param name="xqApi">XQApi</param>
+        /// <param name="rawEvent">XQEvent的原始参数</param>
+        protected XqEventArgs(XqApi xqApi, XqRawEvent rawEvent)
         {
             XqApi = xqApi;
             RawEvent = rawEvent;
         }
 
         /// <summary>
-        ///     获取QQApi
+        ///     获取XQApi
         /// </summary>
         public XqApi XqApi { get; }
 
         /// <summary>
-        ///     获取XQEvent的全部参数
+        ///     获取XQEvent的原始参数
         /// </summary>
         public XqRawEvent RawEvent { get; }
 
@@ -29,6 +35,10 @@ namespace XQ.SDK.EventArgs
         /// </summary>
         public bool Handler { get; set; }
 
+        /// <summary>
+        ///     获取接收到当前事件的Robot实例
+        ///     部分事件中为null
+        /// </summary>
         public Robot Robot => string.IsNullOrWhiteSpace(RawEvent.RobotQq) ? null : new Robot(XqApi, RawEvent.RobotQq);
     }
 }

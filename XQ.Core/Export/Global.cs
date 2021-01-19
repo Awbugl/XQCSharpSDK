@@ -2,10 +2,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
-using XQ.SDK.Core;
+using XQ.SDK.Core.TinyIOC;
+using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
-namespace XQ.Core
+namespace XQ.Core.Export
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -15,7 +16,7 @@ namespace XQ.Core
 
         internal static XqApi XqApi { get; set; }
 
-        internal static XqPluginInfo PluginInfo { get; set; }
+        internal static PluginInfo PluginInfo { get; set; }
 
         internal static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {

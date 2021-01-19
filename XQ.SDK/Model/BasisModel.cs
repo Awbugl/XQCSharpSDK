@@ -4,7 +4,7 @@ using XQ.SDK.XQ;
 namespace XQ.SDK.Model
 {
     /// <summary>
-    ///     描述XQ数据模型的基础抽象类
+    ///     描述XQ模型的基础抽象类
     /// </summary>
     public abstract class BasisModel
     {

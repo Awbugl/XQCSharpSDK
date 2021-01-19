@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XQ.SDK.Core
+namespace XQ.SDK.Core.TinyIOC
 {
     [Serializable]
     public class TinyIoCRegistrationTypeException : Exception

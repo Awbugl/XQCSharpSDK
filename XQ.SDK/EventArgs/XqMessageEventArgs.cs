@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using XQ.SDK.Enum.Event;
+using XQ.SDK.Enum;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
@@ -8,64 +7,33 @@ namespace XQ.SDK.EventArgs
 {
     public abstract class XqMessageEventArgs : XqEventArgs
     {
+        /// <summary>
+        ///     事件构造函数
+        /// </summary>
+        /// <param name="xqApi">XQApi</param>
+        /// <param name="rawEvent">XQEvent的原始参数</param>
         protected XqMessageEventArgs(XqApi xqApi, XqRawEvent rawEvent) : base(xqApi, rawEvent)
         {
         }
 
+        /// <summary>
+        ///     事件来源QQ
+        /// </summary>
         public Qq FromQq => string.IsNullOrWhiteSpace(RawEvent.FromQq)
             ? null
             : new Qq(XqApi, Robot, RawEvent.FromQq, Type, RawEvent.From, RawEvent.ExtraType);
 
-        public string Text => RawEvent.Content;
+        /// <summary>
+        ///     事件消息
+        /// </summary>
+        public QqMessage Message => new QqMessage(XqApi, Robot, RawEvent.Content);
 
-        public XqMessageEventType Type =>
-            System.Enum.IsDefined(typeof(XqMessageEventType), RawEvent.EventType)
-                ? (XqMessageEventType) RawEvent.EventType
+        /// <summary>
+        ///     事件类型
+        /// </summary>
+        public MessageType Type =>
+            System.Enum.IsDefined(typeof(MessageType), RawEvent.EventType)
+                ? (MessageType) RawEvent.EventType
                 : throw new ArgumentException("type不正确");
-
-        /// <summary>
-        ///     若不是语音消息，将返回null
-        /// </summary>
-        public VoiceMessageObject GetVoiceList()
-        {
-            return VoiceMessageObject.GetFromMessage(Text);
-        }
-
-        /// <summary>
-        ///     语音信息的下载链接(silk格式)
-        ///     若不是语音消息，将报错
-        /// </summary>
-        public string GetVoiceMessageDownloadLink(VoiceMessageObject obj)
-        {
-            return XqApi.GetVoiLink(Robot, obj);
-        }
-
-        /// <summary>
-        ///     若不是语音消息，将报错
-        /// </summary>
-        public string VoiceMessageText(VoiceMessageObject obj)
-        {
-            return XqApi.VoiToText(Robot, RawEvent.From, (int) Type, obj);
-        }
-
-        /// <summary>
-        ///     若不含图片消息，将返回null
-        /// </summary>
-        public List<ImageMessageObject> GetImageList()
-        {
-            return ImageMessageObject.GetFromMessage(Text);
-        }
-
-        /// <returns>图片的下载链接</returns>
-        public string GetImageDownloadLink(ImageMessageObject obj)
-        {
-            return XqApi.GetPicLink(Robot, Type == XqMessageEventType.Group ? 2 : 1, RawEvent.From, obj);
-        }
-
-        /// <returns>图片Ocr后的信息</returns>
-        public OcrItemCollection GetImageOcrResult(ImageMessageObject obj)
-        {
-            return XqApi.OcrPic(Robot, obj);
-        }
     }
 }

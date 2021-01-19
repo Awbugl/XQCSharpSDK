@@ -5,10 +5,10 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     应用初始化事件接口
     /// </summary>
-    public interface IAppEnable : IProcess
+    public interface IAppEnable : IXqEvent
     {
         /// <summary>
-        ///     当在派生类中重写时, 处理 应用初始化事件 回调
+        ///     处理应用初始化事件
         /// </summary>
         void AppEnable(XqApi xqApi);
     }
