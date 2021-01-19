@@ -91,7 +91,7 @@
         RecieveGroupFile = 218,
 
         /// <summary>
-        ///     某人被群主或管理员并且进入了群(或100以内免审核)
+        ///     某人被群主或管理员邀请并且进入了群(或100以内免审核)
         /// </summary>
         SomeoneHasBeenInvitedIntoGroupByAdminOrOwner = 219,
 

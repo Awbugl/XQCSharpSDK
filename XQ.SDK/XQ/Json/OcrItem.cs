@@ -8,7 +8,7 @@ namespace XQ.SDK.XQ.Json
         ///     文字
         /// </summary>
         [JsonProperty(PropertyName = "txt")]
-        public string Txt { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// </summary>

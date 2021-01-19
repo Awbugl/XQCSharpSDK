@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using XQ.SDK.Enum;
 using XQ.SDK.XQ;
 using XQ.SDK.XQ.Json;
@@ -14,6 +13,7 @@ namespace XQ.SDK.Model
 
 
         private List<Qq> _friendlist;
+
 
         private List<Group> _grouplist;
 
@@ -34,16 +34,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public List<Qq> GetFriendList()
         {
-            try
-            {
-                return _friendlist ??= _api.TencentApi.GetFriendList(_robotQq)
-                    .Select(i => new Qq(_api, this, i.Id, i.Name)).ToList();
-            }
-            catch
-            {
-                return _friendlist ??= _api.TencentApi.GetFriendList_NumberOnly(_robotQq)
-                    .Select(i => new Qq(_api, this, i)).ToList();
-            }
+            return _friendlist ??= _api.GetFriendList(_robotQq);
         }
 
         /// <summary>
@@ -52,7 +43,7 @@ namespace XQ.SDK.Model
         /// <returns>返回创建群的群号</returns>
         public string CreateGroup()
         {
-            return _api.TencentApi.CreateGroup(_robotQq);
+            return _api.CreateGroup(_robotQq);
         }
 
         /// <summary>
@@ -60,7 +51,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public bool SetHeadPic(ImageMessageObject obj)
         {
-            return _api.TencentApi.SetHeadPic(_robotQq, obj.ToBytes());
+            return _api.SetHeadPic(_robotQq, obj.ToBytes());
         }
 
         /// <summary>
@@ -68,16 +59,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public List<Group> GetGroupList()
         {
-            try
-            {
-                return _grouplist ??= _api.TencentApi.GetGroupList(_robotQq).Select(i => new Group(_api, this, i))
-                    .ToList();
-            }
-            catch
-            {
-                return _grouplist ??= _api.TencentApi.GetGroupList_NumberOnly(_robotQq)
-                    .Select(i => new Group(_api, this, i)).ToList();
-            }
+            return _grouplist ??= _api.GetGroupList(_robotQq);
         }
 
         /// <summary>
@@ -85,34 +67,34 @@ namespace XQ.SDK.Model
         /// </summary>
         public RobotInfo GetRobotInfo()
         {
-            return _api.FrameApi.GetRInf(_robotQq);
+            return _api.GetRobotInfo(_robotQq);
         }
 
         /// <summary>
-        ///     修改QQ在线状态
+        ///     修改机器人账号在线状态
         /// </summary>
         /// <param name="onLineType">在线状态类型</param>
         public void SetOnlineStatus(XqOnlineStatusType onLineType)
         {
-            _api.FrameApi.SetRInf(_robotQq, $"{(int) onLineType}", "");
+            _api.SetOnlineStatus(_robotQq, onLineType);
         }
 
         /// <summary>
-        ///     修改个性签名
+        ///     修改机器人账号个性签名
         /// </summary>
         /// <param name="signature">个性签名</param>
         public void SetSignature(string signature)
         {
-            _api.FrameApi.SetRInf(_robotQq, "8", signature);
+            _api.SetSignature(_robotQq, signature);
         }
 
         /// <summary>
-        ///     修改性别
+        ///     修改机器人账号性别
         /// </summary>
         /// <param name="type">性别</param>
         public void SetSex(XqSexType type)
         {
-            _api.FrameApi.SetRInf(_robotQq, "9", $"{(int) type}");
+            _api.SetSex(_robotQq, type);
         }
 
         /// <summary>
@@ -122,7 +104,7 @@ namespace XQ.SDK.Model
         /// <param name="qq"></param>
         public void InviteFriendInfoGroup(string group, string qq)
         {
-            _api.TencentApi.InviteGroup(_robotQq, group, qq);
+            _api.InviteFriendInfoGroup(_robotQq, group, qq);
         }
 
 
@@ -134,7 +116,7 @@ namespace XQ.SDK.Model
         /// <param name="qq">被邀请人的QQ</param>
         public bool InviteGroupMemberInfoGroup(string group, string groupY, string qq)
         {
-            return _api.TencentApi.InviteGroupMember(_robotQq, group, groupY, qq);
+            return _api.InviteGroupMemberInfoGroup(_robotQq, group, groupY, qq);
         }
 
 
@@ -145,7 +127,7 @@ namespace XQ.SDK.Model
         /// <param name="message">附加理由，可留空（需回答正确问题时，请填写问题答案</param>
         public void JoinGroup(string group, string message)
         {
-            _api.TencentApi.JoinGroup(_robotQq, group, message);
+            _api.JoinGroup(_robotQq, group, message);
         }
 
         /// <summary>
@@ -153,7 +135,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public void SetCation(string group, XqFriendAddRequestType type)
         {
-            _api.TencentApi.SetCation(_robotQq, type);
+            _api.SetCation(_robotQq, type);
         }
 
         /// <summary>
@@ -163,7 +145,7 @@ namespace XQ.SDK.Model
         /// <param name="answer">设置的问题答案 </param>
         public void SetCationWithQuestion(string problem, string answer)
         {
-            _api.TencentApi.Setcation_problem_A(_robotQq, problem, answer);
+            _api.SetCationWithQuestion(_robotQq, problem, answer);
         }
 
         /// <summary>
@@ -174,7 +156,7 @@ namespace XQ.SDK.Model
         /// <param name="problem3">设置问题三</param>
         public void SetCationWithThreeQuestion(string problem1, string problem2, string problem3)
         {
-            _api.TencentApi.Setcation_problem_B(_robotQq, problem1, problem2, problem3);
+            _api.SetCationWithThreeQuestion(_robotQq, problem1, problem2, problem3);
         }
 
         public static implicit operator string(Robot robot)
@@ -200,7 +182,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetGroupPsKey()
             {
-                return _api.PsKeyApi.GetGroupPsKey(_robotQq);
+                return _api.GetGroupPsKey(_robotQq);
             }
 
             /// <summary>
@@ -210,7 +192,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetZonePsKey()
             {
-                return _api.PsKeyApi.GetZonePsKey(_robotQq);
+                return _api.GetZonePsKey(_robotQq);
             }
 
             /// <summary>
@@ -220,7 +202,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetCookies()
             {
-                return _api.PsKeyApi.GetCookies(_robotQq);
+                return _api.GetCookies(_robotQq);
             }
 
             /// <summary>
@@ -229,7 +211,7 @@ namespace XQ.SDK.Model
             /// <returns>16进制字符串</returns>
             public string GetClientkey()
             {
-                return _api.PsKeyApi.GetClientkey(_robotQq);
+                return _api.GetClientkey(_robotQq);
             }
 
             /// <summary>
@@ -238,7 +220,7 @@ namespace XQ.SDK.Model
             /// <returns>16进制字符串</returns>
             public string GetLongClientkey()
             {
-                return _api.PsKeyApi.GetLongClientkey(_robotQq);
+                return _api.GetLongClientkey(_robotQq);
             }
 
             /// <summary>
@@ -248,7 +230,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetClassRoomPsKey()
             {
-                return _api.PsKeyApi.GetClassRoomPsKey(_robotQq);
+                return _api.GetClassRoomPsKey(_robotQq);
             }
 
             /// <summary>
@@ -258,7 +240,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetRepPsKey()
             {
-                return _api.PsKeyApi.GetRepPsKey(_robotQq);
+                return _api.GetRepPsKey(_robotQq);
             }
 
             /// <summary>
@@ -268,7 +250,7 @@ namespace XQ.SDK.Model
             /// <returns></returns>
             public string GetTenPayPsKey()
             {
-                return _api.PsKeyApi.GetTenPayPsKey(_robotQq);
+                return _api.GetTenPayPsKey(_robotQq);
             }
 
             /// <summary>
@@ -277,7 +259,7 @@ namespace XQ.SDK.Model
             /// <returns>bkn （一串数字）</returns>
             public string GetBkn()
             {
-                return _api.PsKeyApi.GetBkn(_robotQq);
+                return _api.GetBkn(_robotQq);
             }
         }
     }

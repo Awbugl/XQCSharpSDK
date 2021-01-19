@@ -9,10 +9,10 @@ namespace XQ.SDK.Model
     public abstract class BasisModel
     {
         /// <exception cref="ArgumentNullException">参数: api 为 null</exception>
-        protected BasisModel(XqApi api, Robot robot)
+        protected BasisModel(XqApi api, string robot)
         {
             XqApi = api ?? throw new ArgumentNullException(nameof(api));
-            Robot = robot;
+            Robot = new Robot(api, robot);
         }
 
         public XqApi XqApi { get; }

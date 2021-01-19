@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using XQ.SDK.Enum.Event;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
-using XQ.SDK.XQ.Json;
 
 namespace XQ.SDK.EventArgs
 {
-    public class XqMessageEventArgs : XqEventArgs
+    public abstract class XqMessageEventArgs : XqEventArgs
     {
-        public XqMessageEventArgs(XqApi xqApi, XqRawEvent rawEvent) : base(xqApi, rawEvent)
+        protected XqMessageEventArgs(XqApi xqApi, XqRawEvent rawEvent) : base(xqApi, rawEvent)
         {
         }
 
-        public Qq FromQq => string.IsNullOrWhiteSpace(RawEvent.FromQq) ? null : new Qq(XqApi, Robot, RawEvent.FromQq);
+        public Qq FromQq => string.IsNullOrWhiteSpace(RawEvent.FromQq)
+            ? null
+            : new Qq(XqApi, Robot, RawEvent.FromQq, Type, RawEvent.From, RawEvent.ExtraType);
 
         public string Text => RawEvent.Content;
 
@@ -36,7 +37,7 @@ namespace XQ.SDK.EventArgs
         /// </summary>
         public string GetVoiceMessageDownloadLink(VoiceMessageObject obj)
         {
-            return XqApi.TencentApi.GetVoiLink(Robot, obj);
+            return XqApi.GetVoiLink(Robot, obj);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace XQ.SDK.EventArgs
         /// </summary>
         public string VoiceMessageText(VoiceMessageObject obj)
         {
-            return XqApi.TencentApi.VoiToText(Robot, RawEvent.From, (int) Type, obj);
+            return XqApi.VoiToText(Robot, RawEvent.From, (int) Type, obj);
         }
 
         /// <summary>
@@ -58,13 +59,13 @@ namespace XQ.SDK.EventArgs
         /// <returns>图片的下载链接</returns>
         public string GetImageDownloadLink(ImageMessageObject obj)
         {
-            return XqApi.TencentApi.GetPicLink(Robot, Type == XqMessageEventType.Group ? 2 : 1, RawEvent.From, obj);
+            return XqApi.GetPicLink(Robot, Type == XqMessageEventType.Group ? 2 : 1, RawEvent.From, obj);
         }
 
         /// <returns>图片Ocr后的信息</returns>
-        public List<OcrItem> GetImageOcrResult(ImageMessageObject obj)
+        public OcrItemCollection GetImageOcrResult(ImageMessageObject obj)
         {
-            return XqApi.TencentApi.OcrPic(Robot, obj);
+            return XqApi.OcrPic(Robot, obj);
         }
     }
 }

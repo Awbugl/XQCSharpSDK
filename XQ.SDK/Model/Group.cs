@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using XQ.SDK.Enum.Event;
 using XQ.SDK.XQ;
 using XQ.SDK.XQ.Json;
 
@@ -15,16 +15,16 @@ namespace XQ.SDK.Model
 
         private Qq _owner;
 
-        public Group(XqApi api, Robot robotqq, string id) : base(api, robotqq)
+        public Group(XqApi api, string robotqq, string id) : base(api, robotqq)
         {
             Id = id;
         }
 
-        public Group(XqApi api, Robot robotqq, GroupInfoJson info) : base(api, robotqq)
+        public Group(XqApi api, string robotqq, GroupInfoJson info) : base(api, robotqq)
         {
             Id = info.Id;
             _name = info.Name;
-            _owner = new Qq(api, robotqq, info.Owner);
+            _owner = new Qq(api, robotqq, info.Owner, XqMessageEventType.Group, info.Id);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     QQ群名称
         /// </summary>
-        public string Name => _name ??= XqApi.TencentApi.GetGroupName(Robot, Id);
+        public string Name => _name ??= XqApi.GetGroupName(Robot, Id);
 
         public Qq Owner => _owner ??= GetAdminList()[0];
 
@@ -44,8 +44,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public List<Qq> GetAdminList()
         {
-            return _adminList ??=
-                XqApi.TencentApi.GetGroupAdmin(Robot, Id).Select(i => new Qq(XqApi, Robot, i)).ToList();
+            return _adminList ??= XqApi.GetAdminList(Robot, Id);
         }
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public string GetGroupCard(Qq qq)
         {
-            return XqApi.TencentApi.GetGroupCard(Robot, Id, qq.Id);
+            return XqApi.GetGroupCard(Robot, Id, qq.Id);
         }
 
         /// <summary>
@@ -61,16 +60,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public List<Qq> GetGroupMemberList()
         {
-            try
-            {
-                return _groupmemberlist ??= XqApi.TencentApi.GetGroupMemberList_NumberOnly(Robot, Id)
-                    .Select(i => new Qq(XqApi, Robot, i)).ToList();
-            }
-            catch
-            {
-                return _groupmemberlist ??= XqApi.TencentApi.GetGroupMemberList(Robot, Id)
-                    .Select(i => new Qq(XqApi, Robot, i.Key, i.Value.Name)).ToList();
-            }
+            return _groupmemberlist ??= XqApi.GetGroupMemberList(Robot, Id);
         }
 
         /// <summary>
@@ -79,7 +69,7 @@ namespace XQ.SDK.Model
         /// <returns>item1 :当前群人数; item2 :群人数上限</returns>
         public (string, string) GetGroupMemberNum()
         {
-            return XqApi.TencentApi.GetGroupMemberNum(Robot, Id);
+            return XqApi.GetGroupMemberNum(Robot, Id);
         }
 
         /// <summary>
@@ -88,7 +78,7 @@ namespace XQ.SDK.Model
         /// <returns></returns>
         public bool GetAnon()
         {
-            return XqApi.TencentApi.GetAnon(Robot, Id);
+            return XqApi.GetAnon(Robot, Id);
         }
 
         /// <summary>
@@ -96,7 +86,7 @@ namespace XQ.SDK.Model
         /// </summary>
         public void QuitGroup()
         {
-            XqApi.TencentApi.QuitGroup(Robot, Id);
+            XqApi.QuitGroup(Robot, Id);
         }
 
         /// <summary>
@@ -107,7 +97,7 @@ namespace XQ.SDK.Model
         /// <param name="allow">是否不在允许接受申请入群(true/false)</param>
         public void KickGroupMember(Qq qq, bool allow)
         {
-            XqApi.TencentApi.KickGroupMember(Robot, Id, qq.Id, allow);
+            XqApi.KickGroupMember(Robot, Id, qq.Id, allow);
         }
 
         /// <summary>
@@ -118,7 +108,7 @@ namespace XQ.SDK.Model
         /// <returns></returns>
         public bool PublishGroupNotice(string title, string message)
         {
-            return XqApi.TencentApi.PublishGroupNotice(Robot, Id, title, message);
+            return XqApi.PublishGroupNotice(Robot, Id, title, message);
         }
 
         /// <summary>
@@ -127,7 +117,7 @@ namespace XQ.SDK.Model
         /// <returns></returns>
         public bool SetGroupCard(Qq qq, string card)
         {
-            return XqApi.TencentApi.SetGroupCard(Robot, Id, qq.Id, card);
+            return XqApi.SetGroupCard(Robot, Id, qq.Id, card);
         }
 
         /// <summary>
@@ -135,7 +125,17 @@ namespace XQ.SDK.Model
         /// </summary>
         public void ShieldThisGroup()
         {
-            XqApi.TencentApi.SetShieldedGroup(Robot, Id, true);
+            XqApi.SetShieldedGroup(Robot, Id, true);
+        }
+
+        /// <summary>
+        ///     发送群聊消息
+        /// </summary>
+        /// <param name="anonymous">选择是否匿名发送,在群聊不允许发送匿名消息时无效</param>
+        /// <param name="msg"></param>
+        public void SendGroupMessage(bool anonymous, params object[] msg)
+        {
+            XqApi.SendGroupMessage(Robot, Id, anonymous && GetAnon(), msg);
         }
 
         public static implicit operator string(Group group)

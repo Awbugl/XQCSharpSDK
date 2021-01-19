@@ -29,7 +29,7 @@ namespace XQ.Core
             try
             {
                 File.AppendAllText($"{dir}XQCSharp_Err.log", $"{DateTime.Now:T}\n{ex}\n\n");
-                XqApi.FrameApi.OutPutLogToFrame($"[{PluginInfo.Name}] 发生异常：" + ex.Message);
+                XqApi.OutPutLogToFrame($"[{PluginInfo.Name}] 发生异常：" + ex.Message);
             }
             catch
             {

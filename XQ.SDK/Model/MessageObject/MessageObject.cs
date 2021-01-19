@@ -35,23 +35,23 @@ namespace XQ.SDK.Model
             return new XqMessageObject(str);
         }
 
-        public XqMessageObject RandomNumber(int begin, int end)
+        public static XqMessageObject RandomNumber(int begin, int end)
         {
             if (begin < end) throw new ArgumentException();
             return new XqMessageObject($"[{begin},{end}]");
         }
 
-        public XqMessageObject At(string qq)
+        public static XqMessageObject At(string qq)
         {
             return new XqMessageObject($"[@{qq}]");
         }
 
         /// <summary>
-        ///     number范围为1-213
+        ///     对照表请参考 https://github.com/kyubotics/coolq-http-api/wiki/%E8%A1%A8%E6%83%85-CQ-%E7%A0%81-ID-%E8%A1%A8
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        public XqMessageObject Face(int number)
+        public static XqMessageObject Face(int number)
         {
             return new XqMessageObject($"[Face{number}.gif]");
         }

@@ -11,11 +11,16 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public Qq FromQq => string.IsNullOrWhiteSpace(RawEvent.FromQq) ? null : new Qq(XqApi, Robot, RawEvent.FromQq);
+        public Qq FromQq => string.IsNullOrWhiteSpace(RawEvent.FromQq)
+            ? null
+            : new Qq(XqApi, Robot, RawEvent.FromQq, XqMessageEventType.Group, RawEvent.From);
 
-        public Qq TargetQq => string.IsNullOrWhiteSpace(RawEvent.TargetQq) ? null : new Qq(XqApi, Robot, RawEvent.TargetQq);
+        public Qq TargetQq => string.IsNullOrWhiteSpace(RawEvent.TargetQq)
+            ? null
+            : new Qq(XqApi, Robot, RawEvent.TargetQq, XqMessageEventType.Group, RawEvent.From);
 
-        public Group FromGroup => string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
+        public Group FromGroup =>
+            string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
 
         public XqGroupEventType Type =>
             System.Enum.IsDefined(typeof(XqGroupEventType), RawEvent.EventType)

@@ -1,7 +1,4 @@
-﻿using XQ.SDK.Core;
-using XQ.SDK.Enum;
-using XQ.SDK.Enum.Event;
-using XQ.SDK.Model;
+﻿using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
 namespace XQ.SDK.EventArgs
@@ -12,17 +9,27 @@ namespace XQ.SDK.EventArgs
         {
         }
 
-        public Group FromGroup => string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
+        public Group FromGroup =>
+            string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
 
-        public void SendGroupMessage(params object[] msg)
+        /// <summary>
+        ///     群聊回复消息
+        /// </summary>
+        /// <param name="anonymous">选择是否匿名发送,在群聊不允许发送匿名消息时无效</param>
+        /// <param name="at">选择是否at</param>
+        /// <param name="msg"></param>
+        public void ReplyAsGroupMessage(bool anonymous, bool at, params object[] msg)
         {
-            XqApi.TencentApi.SendGroupMessage(RawEvent.RobotQq, FromGroup, msg.ToSend());
+            FromGroup.SendGroupMessage(anonymous, at ? XqMessageObject.At(FromQq) : null, msg);
         }
 
-        public void SendPrivateMessage(params object[] msg)
+        /// <summary>
+        ///     私聊回复消息
+        /// </summary>
+        /// <param name="msg"></param>
+        public void ReplyAsPrivateMessage(params object[] msg)
         {
-            XqApi.TencentApi.SendPrivateMessage(Robot, FromQq, PrivateMessageType.TempGroupMessage, msg.ToSend(),
-                Type == XqMessageEventType.TempGroupMessage ? RawEvent.From : "");
+            FromQq.SendPrivateMessage(msg);
         }
     }
 }

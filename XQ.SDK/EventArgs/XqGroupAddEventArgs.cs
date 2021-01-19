@@ -12,7 +12,7 @@ namespace XQ.SDK.EventArgs
 
         public void Handle(XqGroupRequestHandlerType type, string refuseMessage = "")
         {
-            XqApi.TencentApi.HandleGroupEvent(Robot, 214, FromQq, FromGroup, RawEvent.Udpmsg, (int) type,
+            XqApi.HandleGroupEvent(Robot, 214, FromQq, FromGroup, RawEvent.Udpmsg, (int) type,
                 refuseMessage);
         }
     }

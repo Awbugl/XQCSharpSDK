@@ -96,7 +96,6 @@
     <Compile Include="Interface\IGroupEchoMessage.cs" />
     <Compile Include="Interface\IGroupEvent.cs" />
     <Compile Include="Interface\IGroupMessage.cs" />
-    <Compile Include="Interface\IOtherMessage.cs" />
     <Compile Include="Interface\IPrivateMessage.cs" />
     <Compile Include="Interface\IProcess.cs" />
     <Compile Include="Interface\IRobotEvent.cs" />
@@ -112,7 +111,7 @@
     <Compile Include="Model\Robot.cs" />
     <Compile Include="Model\XqRawEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XQ\FrameApi.cs" />
+    <Compile Include="XQ\Api\QQApi.cs" />
     <Compile Include="XQ\Json\FriendInfoJson.cs" />
     <Compile Include="XQ\Json\FriendList.cs" />
     <Compile Include="XQ\Json\GroupInfoJson.cs" />
@@ -121,9 +120,8 @@
     <Compile Include="XQ\Json\GroupMemberList.cs" />
     <Compile Include="XQ\Json\OcrInfo.cs" />
     <Compile Include="XQ\Json\OcrItem.cs" />
+    <Compile Include="Model\OcrItemCollection.cs" />
     <Compile Include="XQ\Json\RobotInfo.cs" />
-    <Compile Include="XQ\PsKeyApi.cs" />
-    <Compile Include="XQ\TencentApi.cs" />
     <Compile Include="XQ\XqApi.cs" />
     <Compile Include="XQ\Xqdll.cs" />
   </ItemGroup>
