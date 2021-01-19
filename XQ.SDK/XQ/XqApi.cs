@@ -726,9 +726,9 @@ namespace XQ.SDK.XQ
         ///     获取机器人账号是否在线
         /// </summary>
         /// <param name="robot">botQQ</param>
-        public bool GetBotsOnline(string robot)
+        public bool GetBotIsOnline(string robot)
         {
-            return XqDll.Getbotisonline(_authid, robot);
+            return XqDll.GetBotIsOnline(_authid, robot);
         }
 
         /// <summary>

@@ -48,12 +48,12 @@ namespace XQ.Core.Export
         {
             try
             {
-                return Destroy();
-            }
-            catch (Exception e)
-            {
-                File.AppendAllText("Ex.txt", e + "\n\n");
+                AppDomain.CreateDomain("Unload").DoCallBack(Global.Unload);
                 return 1;
+            }
+            catch
+            {
+                return Destroy();
             }
         }
 

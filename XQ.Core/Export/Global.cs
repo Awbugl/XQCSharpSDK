@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
+
 using XQ.SDK.Core.TinyIOC;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
@@ -37,6 +38,11 @@ namespace XQ.Core.Export
                 Thread.Sleep(2000);
                 ExceptionReport(ex);
             }
+        }
+        
+        public static void Unload()
+        {
+           AppDomain.Unload(AppDomain.CurrentDomain);
         }
     }
 }
