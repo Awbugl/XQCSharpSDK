@@ -24,14 +24,14 @@ namespace XQ.Core.Export
             ExceptionReport(e.ExceptionObject as Exception);
         }
 
-        internal static void ExceptionReport(Exception ex)
+        internal static void ExceptionReport(Exception ex, bool output = true)
         {
             var dir = $"Log/{DateTime.Now:yyyy-M-d}/";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             try
             {
                 File.AppendAllText($"{dir}XQCSharp_Err.log", $"{DateTime.Now:T}\n{ex}\n\n");
-                XqApi.OutPutLogToFrame($"[{PluginInfo.Name}] 发生异常：" + ex.Message);
+                if (output) XqApi.OutPutLogToFrame($"[{PluginInfo.Name}] 发生异常：" + ex.Message);
             }
             catch
             {
@@ -39,10 +39,10 @@ namespace XQ.Core.Export
                 ExceptionReport(ex);
             }
         }
-        
+
         public static void Unload()
         {
-           AppDomain.Unload(AppDomain.CurrentDomain);
+            AppDomain.Unload(AppDomain.CurrentDomain);
         }
     }
 }
