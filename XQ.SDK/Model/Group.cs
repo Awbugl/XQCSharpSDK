@@ -103,16 +103,6 @@ namespace XQ.SDK.Model
         }
 
         /// <summary>
-        ///     发布群公告
-        /// </summary>
-        /// <param name="title">公告标题</param>
-        /// <param name="message">公告内容</param>
-        public bool PublishGroupNotice(string title, string message)
-        {
-            return XqApi.PublishGroupNotice(Robot, Id, title, message);
-        }
-
-        /// <summary>
         ///     修改群成员昵称
         /// </summary>
         public bool SetGroupCard(Qq qq, string card)

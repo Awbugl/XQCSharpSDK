@@ -121,9 +121,6 @@ namespace XQ.SDK.XQ
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_SetRInf")]
         public static extern void SetRInf(byte[] autoid, string robotQq, string onLineType, string message);
 
-        [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_PBGroupNotic")]
-        public static extern bool PBGroupNotic(byte[] autoid, string robotQq, string group, string messageTitle, string message);
-
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_Uninstall")]
         public static extern bool Uninstall(byte[] autoid);
 

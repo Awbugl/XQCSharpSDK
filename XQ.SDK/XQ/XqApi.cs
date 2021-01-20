@@ -347,19 +347,7 @@ namespace XQ.SDK.XQ
         {
             XqDll.KickGroupMBR(_authid, robot, group, qq, allow);
         }
-
-        /// <summary>
-        ///     发布群公告
-        /// </summary>
-        /// <param name="robot">botQQ</param>
-        /// <param name="group">群号</param>
-        /// <param name="title">公告标题</param>
-        /// <param name="message">公告内容</param>
-        public bool PublishGroupNotice(string robot, string group, string title, string message)
-        {
-            return XqDll.PBGroupNotic(_authid, robot, group, title, message);
-        }
-
+        
         /// <summary>
         ///     提取图片文字
         /// </summary>
