@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+
 using XQ.SDK.Enum;
 using XQ.SDK.Interface;
 using XQ.SDK.Model.Json;
@@ -18,6 +19,7 @@ namespace XQ.SDK.Model.MessageObject
     ///     图片消息
     /// </summary>
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "CommentTypo")]
     public class ImageMessage : IToSendString
     {
         private readonly string _sendString;
@@ -26,6 +28,17 @@ namespace XQ.SDK.Model.MessageObject
         private readonly XqApi _xqApi;
 
         public readonly string RobotQq;
+
+        private static readonly Lazy<Regex>
+            PrivateImage =
+                new Lazy<Regex>(() =>
+                    new Regex("{[0-9]{5,15}[-][0-9]{5,15}[-]([0-9A-Fa-f]{32})}.(jpg|png|gif|bmp|jpeg).*",
+                        RegexOptions.IgnoreCase | RegexOptions.ECMAScript)),
+
+            GroupImage = new Lazy<Regex>(() => new Regex(
+                "{([0-9A-Fa-f]{8})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{12})}.(jpg|png|gif|bmp|jpeg).*",
+                RegexOptions.IgnoreCase | RegexOptions.ECMAScript));
+
 
         private ImageMessage(XqApi xqApi, string robotqq, string toSendString, ImageMessageType type)
         {
@@ -43,7 +56,35 @@ namespace XQ.SDK.Model.MessageObject
         }
 
         /// <summary>
+        /// 将群聊图片消息进行转换，使其可在私聊中发送
+        /// </summary>
+        public PlainMessage GroupToPrivate()
+        {
+            Match rslt = GroupImage.Value.Match(_sendString);
+            if (!rslt.Success) return "";
+            var m = rslt.Groups;
+            var guid = m[1].Value;
+            return
+                $"[pic={{{guid.Substring(0, 8)}-{guid.Substring(8, 4)}-{guid.Substring(12, 4)}-{guid.Substring(16, 4)}-{guid.Substring(20)}}}.{m[2].Value}]";
+        }
+
+        /// <summary>
+        /// 将私聊图片消息进行转换，使其可在群聊中发送
+        ///  代码逻辑来自w4123/CQXQ
+        /// </summary>
+        /// <param name="robot">botQQ</param>
+        public PlainMessage PrivateToGroup(string robot)
+        {
+            Match rslt = PrivateImage.Value.Match(_sendString);
+            if (!rslt.Success) return "";
+            var m = rslt.Groups;
+            return
+                $"[pic={{{robot}-1234567879-{m[1].Value}{m[2].Value}{m[3].Value}{m[4].Value}{m[5].Value}}}.{m[6].Value}]";
+        }
+
+        /// <summary>
         ///     从文件绝对路径构造ImageMessage
+        ///  代码逻辑来自w4123/CQXQ
         /// </summary>
         /// <param name="xqApi">Api</param>
         /// <param name="robot">botQQ</param>
@@ -85,7 +126,7 @@ namespace XQ.SDK.Model.MessageObject
         /// </summary>
         public PlainMessage ToShowPic(ShowPicType type)
         {
-            return new PlainMessage(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int) type}]");
+            return new PlainMessage(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int)type}]");
         }
 
         /// <summary>
@@ -97,7 +138,8 @@ namespace XQ.SDK.Model.MessageObject
         }
 
         /// <summary>
-        ///     获取消息中所有图片的Guid
+        ///     获取消息中所有图片消息
+        ///     若转发可能需要进行格式转换
         /// </summary>
         /// <param name="robotqq"></param>
         /// <param name="message"></param>
@@ -111,8 +153,8 @@ namespace XQ.SDK.Model.MessageObject
                     ? null
                     : (from Match item in Regex.Matches(message,
                             @"([pic])(.)+?(?=\])")
-                        select $"[{item.Value}]").Select(i =>
-                        new ImageMessage(xqApi, robotqq, i, ImageMessageType.FromMessage))
+                       select $"[{item.Value}]").Select(i =>
+                       new ImageMessage(xqApi, robotqq, i, ImageMessageType.FromMessage))
                     .ToList();
             }
             catch
@@ -146,10 +188,11 @@ namespace XQ.SDK.Model.MessageObject
                 {
                     ImageMessageType.FromFile => new FileStream(Rawmsg, FileMode.Open, FileAccess.Read),
                     ImageMessageType.FromWebUrl => GetFromWeb(Rawmsg),
+                    ImageMessageType.FromMessage => throw new ArgumentOutOfRangeException(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 binaryWriter = new BinaryReader(fs);
-                return binaryWriter.ReadBytes((int) fs.Length);
+                return binaryWriter.ReadBytes((int)fs.Length);
             }
             finally
             {
