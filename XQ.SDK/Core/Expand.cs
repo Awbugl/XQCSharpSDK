@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using XQ.SDK.Interface;
 
 namespace XQ.SDK.Core
@@ -16,15 +15,18 @@ namespace XQ.SDK.Core
     [SuppressMessage("ReSharper", "CommentTypo")]
     public static class Expand
     {
+        private static readonly Lazy<Regex> Reg = new Lazy<Regex>(() =>
+            new Regex("(&nbsp;|\\[em\\](e[0-9]{1,6})\\[\\/em\\])", RegexOptions.IgnoreCase | RegexOptions.ECMAScript));
+
+        private static readonly Encoding Gb18030 = Encoding.GetEncoding("gb18030");
+
         /// <summary>
         ///     将以换行符分割的string转换为list
         /// </summary>
         public static List<string> SplitToList(this string str)
         {
-            return str.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
+            return str.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
         }
-
-        private static readonly Lazy<Regex> Reg = new Lazy<Regex>(() => new Regex("(&nbsp;|\\[em\\](e[0-9]{1,6})\\[\\/em\\])", RegexOptions.IgnoreCase | RegexOptions.ECMAScript));
 
         /// <summary>
         ///     将IntPtrToString中未转换的[em]exxxxxx[/em]转换为Emoji码
@@ -54,14 +56,13 @@ namespace XQ.SDK.Core
                     else
                         ret.Append($"[pic=http://qzonestyle.gtimg.cn/qzone/em/{m[2].Value}.gif]");
                 }
+
                 last += rslt.Index + rslt.Length;
             }
 
             ret.Append(msg.Substring(last));
             return ret.ToString();
         }
-
-        private static readonly Encoding Gb18030 = Encoding.GetEncoding("gb18030");
 
         /// <summary>
         ///     将Api返回的IntPtr转换为string和Emoji码
@@ -101,7 +102,7 @@ namespace XQ.SDK.Core
                     bin.Skip(index - count).Take(4).ToArray()).Aggregate("[emoji=", (current, bi)
                     => current + bi.ToString("X2")) + "]";
         }
-        
+
         /// <summary>
         ///     将对象转换为可发送的字符串, 如果待转换的对象继承自 <see cref="IToSendString" /> 将使用该接口的方法获取字符串
         /// </summary>
@@ -122,6 +123,7 @@ namespace XQ.SDK.Core
                         builder.Append(t);
                         break;
                 }
+
             return builder.ToString();
         }
     }

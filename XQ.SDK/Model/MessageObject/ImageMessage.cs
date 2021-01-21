@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-
 using XQ.SDK.Enum;
 using XQ.SDK.Interface;
 using XQ.SDK.Model.Json;
@@ -22,22 +21,21 @@ namespace XQ.SDK.Model.MessageObject
     [SuppressMessage("ReSharper", "CommentTypo")]
     public class ImageMessage : IToSendString
     {
+        private static readonly Lazy<Regex>
+            PrivateImage =
+                new Lazy<Regex>(() =>
+                    new Regex("{[0-9]{5,15}[-][0-9]{5,15}[-]([0-9A-Fa-f]{32})}.(jpg|png|gif|bmp|jpeg).*",
+                        RegexOptions.IgnoreCase | RegexOptions.ECMAScript)),
+            GroupImage = new Lazy<Regex>(() => new Regex(
+                "{([0-9A-Fa-f]{8})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{12})}.(jpg|png|gif|bmp|jpeg).*",
+                RegexOptions.IgnoreCase | RegexOptions.ECMAScript));
+
         private readonly string _sendString;
         private readonly ImageMessageType _type;
 
         private readonly XqApi _xqApi;
 
         public readonly string RobotQq;
-
-        private static readonly Lazy<Regex>
-            PrivateImage =
-                new Lazy<Regex>(() =>
-                    new Regex("{[0-9]{5,15}[-][0-9]{5,15}[-]([0-9A-Fa-f]{32})}.(jpg|png|gif|bmp|jpeg).*",
-                        RegexOptions.IgnoreCase | RegexOptions.ECMAScript)),
-
-            GroupImage = new Lazy<Regex>(() => new Regex(
-                "{([0-9A-Fa-f]{8})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{4})[-]([0-9A-Fa-f]{12})}.(jpg|png|gif|bmp|jpeg).*",
-                RegexOptions.IgnoreCase | RegexOptions.ECMAScript));
 
 
         private ImageMessage(XqApi xqApi, string robotqq, string toSendString, ImageMessageType type)
@@ -56,11 +54,11 @@ namespace XQ.SDK.Model.MessageObject
         }
 
         /// <summary>
-        /// 将群聊图片消息进行转换，使其可在私聊中发送
+        ///     将群聊图片消息进行转换，使其可在私聊中发送
         /// </summary>
         public PlainMessage GroupToPrivate()
         {
-            Match rslt = GroupImage.Value.Match(_sendString);
+            var rslt = GroupImage.Value.Match(_sendString);
             if (!rslt.Success) return "";
             var m = rslt.Groups;
             var guid = m[1].Value;
@@ -69,13 +67,13 @@ namespace XQ.SDK.Model.MessageObject
         }
 
         /// <summary>
-        /// 将私聊图片消息进行转换，使其可在群聊中发送
-        ///  代码逻辑来自w4123/CQXQ
+        ///     将私聊图片消息进行转换，使其可在群聊中发送
+        ///     代码逻辑来自w4123/CQXQ
         /// </summary>
         /// <param name="robot">botQQ</param>
         public PlainMessage PrivateToGroup(string robot)
         {
-            Match rslt = PrivateImage.Value.Match(_sendString);
+            var rslt = PrivateImage.Value.Match(_sendString);
             if (!rslt.Success) return "";
             var m = rslt.Groups;
             return
@@ -84,7 +82,7 @@ namespace XQ.SDK.Model.MessageObject
 
         /// <summary>
         ///     从文件绝对路径构造ImageMessage
-        ///  代码逻辑来自w4123/CQXQ
+        ///     代码逻辑来自w4123/CQXQ
         /// </summary>
         /// <param name="xqApi">Api</param>
         /// <param name="robot">botQQ</param>
@@ -126,7 +124,7 @@ namespace XQ.SDK.Model.MessageObject
         /// </summary>
         public PlainMessage ToShowPic(ShowPicType type)
         {
-            return new PlainMessage(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int)type}]");
+            return new PlainMessage(_sendString.Replace("[pic=", "[ShowPic=") + $",type={(int) type}]");
         }
 
         /// <summary>
@@ -153,8 +151,8 @@ namespace XQ.SDK.Model.MessageObject
                     ? null
                     : (from Match item in Regex.Matches(message,
                             @"([pic])(.)+?(?=\])")
-                       select $"[{item.Value}]").Select(i =>
-                       new ImageMessage(xqApi, robotqq, i, ImageMessageType.FromMessage))
+                        select $"[{item.Value}]").Select(i =>
+                        new ImageMessage(xqApi, robotqq, i, ImageMessageType.FromMessage))
                     .ToList();
             }
             catch
@@ -192,7 +190,7 @@ namespace XQ.SDK.Model.MessageObject
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 binaryWriter = new BinaryReader(fs);
-                return binaryWriter.ReadBytes((int)fs.Length);
+                return binaryWriter.ReadBytes((int) fs.Length);
             }
             finally
             {

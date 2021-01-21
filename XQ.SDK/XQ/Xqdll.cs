@@ -6,7 +6,7 @@ namespace XQ.SDK.XQ
     public static class XqDll
     {
         private const string DllName = "xqapi.dll";
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetFriendList")]
         public static extern IntPtr GetFriendList(byte[] autoid, string qq);
 
@@ -18,22 +18,22 @@ namespace XQ.SDK.XQ
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_Getbotisonline")]
         public static extern bool GetBotIsOnline(byte[] autoid, string qq);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupCard")]
         public static extern IntPtr GetGroupCard(byte[] autoid, string robotQq, string group, string qq);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupAdmin")]
         public static extern IntPtr GetGroupAdmin(byte[] autoid, string robotQq, string group);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_IsShutUp")]
         public static extern bool IsShutUp(byte[] autoid, string robotQq, string group, string qq);
-       
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_IfFriend")]
         public static extern bool IfFriend(byte[] autoid, string robotQq, string qq);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupPsKey")]
         public static extern IntPtr GetGroupPsKey(byte[] autoid, string robotQq);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetZonePsKey")]
         public static extern IntPtr GetZonePsKey(byte[] autoid, string robotQq);
 
@@ -84,13 +84,13 @@ namespace XQ.SDK.XQ
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupMemberNum")]
         public static extern IntPtr GetGroupMemberNum(byte[] autoid, string robotQq, string group);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupMemberList_B")]
         public static extern IntPtr GetGroupMemberList_B(byte[] autoid, string robotQq, string group);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGroupMemberList_C")]
         public static extern IntPtr GetGroupMemberList_C(byte[] autoid, string robotQq, string group);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetRInf")]
         public static extern IntPtr GetRInf(byte[] autoid, string robotQq);
 
@@ -98,16 +98,18 @@ namespace XQ.SDK.XQ
         public static extern bool GetAnon(byte[] autoid, string robotQq, string group);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetPicLink")]
-        public static extern IntPtr GetPicLink(byte[] autoid, string robotQq, int imageType, string group, string imageGuid);
-        
+        public static extern IntPtr GetPicLink(byte[] autoid, string robotQq, int imageType, string group,
+            string imageGuid);
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetAge")]
         public static extern int GetAge(byte[] autoid, string robotQq, string qq);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetGender")]
         public static extern int GetGender(byte[] autoid, string robotQq, string qq);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_UpLoadPic")]
-        public static extern IntPtr UpLoadPic(byte[] autoid, string robotQq, int messageType, string groupOrQq, byte[] message);
+        public static extern IntPtr UpLoadPic(byte[] autoid, string robotQq, int messageType, string groupOrQq,
+            byte[] message);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_ShutUP")]
         public static extern void ShutUP(byte[] autoid, string robotQq, string group, string qq, int time);
@@ -135,12 +137,14 @@ namespace XQ.SDK.XQ
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_JoinGroup")]
         public static extern void JoinGroup(byte[] autoid, string robotQq, string group, string message);
-        
+
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_HandleFriendEvent")]
-        public static extern void HandleFriendEvent(byte[] autoid, string robotQq, string qq, int messageType, string message);
+        public static extern void HandleFriendEvent(byte[] autoid, string robotQq, string qq, int messageType,
+            string message);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_HandleGroupEvent")]
-        public static extern void HandleGroupEvent(byte[] autoid, string robotQq, int requestType, string qq, string group, string seq, int messageType, string message);
+        public static extern void HandleGroupEvent(byte[] autoid, string robotQq, int requestType, string qq,
+            string group, string seq, int messageType, string message);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_LoginQQ")]
         public static extern void LoginQQ(byte[] autoid, string robotQq);
@@ -158,7 +162,8 @@ namespace XQ.SDK.XQ
         public static extern void InviteGroup(byte[] autoid, string robotQq, string group, string qq);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_InviteGroupMember")]
-        public static extern bool InviteGroupMember(byte[] autoid, string robotQq, string group, string groupY, string qq);
+        public static extern bool InviteGroupMember(byte[] autoid, string robotQq, string group, string groupY,
+            string qq);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_CreateDisGroup")]
         public static extern IntPtr CreateDisGroup(byte[] autoid, string robotQq);
@@ -176,19 +181,23 @@ namespace XQ.SDK.XQ
         public static extern void Setcation_problem_A(byte[] autoid, string robotQq, string problem, string answer);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_Setcation_problem_B")]
-        public static extern void Setcation_problem_B(byte[] autoid, string robotQq, string problem1, string problem2, string problem3);
+        public static extern void Setcation_problem_B(byte[] autoid, string robotQq, string problem1, string problem2,
+            string problem3);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_AddFriend")]
         public static extern bool AddFriend(byte[] autoid, string robotQq, string qq, string message, int xxlay);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_SendJSON")]
-        public static extern void SendJSON(byte[] autoid, string robotQq, int sendType, int messageType, string group, string qq, string jsonMessage);
+        public static extern void SendJSON(byte[] autoid, string robotQq, int sendType, int messageType, string group,
+            string qq, string jsonMessage);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_SendXML")]
-        public static extern void SendXML(byte[] autoid, string robotQq, int sendType, int messageType, string group, string qq, string xmlMessage);
+        public static extern void SendXML(byte[] autoid, string robotQq, int sendType, int messageType, string group,
+            string qq, string xmlMessage);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_UpLoadVoice")]
-        public static extern IntPtr UpLoadVoice(byte[] autoid, string robotQq, int sendType, string group, byte[] message);
+        public static extern IntPtr UpLoadVoice(byte[] autoid, string robotQq, int sendType, string group,
+            byte[] message);
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetVoiLink")]
         public static extern IntPtr GetVoiLink(byte[] autoid, string robotQq, string message);

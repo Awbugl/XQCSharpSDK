@@ -347,7 +347,7 @@ namespace XQ.SDK.XQ
         {
             XqDll.KickGroupMBR(_authid, robot, group, qq, allow);
         }
-        
+
         /// <summary>
         ///     提取图片文字
         /// </summary>
