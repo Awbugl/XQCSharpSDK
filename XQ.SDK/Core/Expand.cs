@@ -116,8 +116,14 @@ namespace XQ.SDK.Core
                 {
                     case null:
                         continue;
-                    case IToSendString sendString:
-                        builder.Append(sendString.ToSendString());
+                    case object[] objs:
+                        builder.Append(objs.ToSend());
+                        break;
+                    case string str:
+                        builder.Append(str);
+                        break;
+                    case IToSendString toSend:
+                        builder.Append(toSend.ToSendString());
                         break;
                     default:
                         builder.Append(t);
