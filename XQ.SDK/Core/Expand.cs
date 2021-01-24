@@ -129,7 +129,6 @@ namespace XQ.SDK.Core
                         builder.Append(t);
                         break;
                 }
-
             return builder.ToString();
         }
     }

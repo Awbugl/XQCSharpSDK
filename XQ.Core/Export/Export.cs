@@ -92,8 +92,15 @@ namespace XQ.Core.Export
 
         public static void Destroy()
         {
-            if (Global.Container.CanResolve<IPluginDestroy>())
-                Global.Container.Resolve<IPluginDestroy>().PluginDestroy(Global.XqApi);
+            try
+            {
+                if (Global.Container.CanResolve<IPluginDestroy>())
+                    Global.Container.Resolve<IPluginDestroy>().PluginDestroy(Global.XqApi);
+            }
+            catch (Exception e)
+            {
+                Global.ExceptionReport(e, false);
+            }
         }
 
         public static int SetUp()
@@ -198,7 +205,6 @@ namespace XQ.Core.Export
                             .GroupAddRequest((GroupAddRequestEventArgs)eventargs);
                         break;
 
-                    case 12000: // PluginLoading
                     case 12001: // PluginEnabled
                         if (!Global.Container.CanResolve<IAppEnable>())
                             return (int)XqEventReturnType.Ignore;
