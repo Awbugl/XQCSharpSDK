@@ -79,6 +79,11 @@ namespace XQ.SDK.Model.MessageObject
             return _sendString;
         }
 
+        public override string ToString()
+        {
+            return ToSendString();
+        }
+
         public static implicit operator PlainMessage(string str)
         {
             return new PlainMessage(str);

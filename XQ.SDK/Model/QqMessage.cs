@@ -31,6 +31,11 @@ namespace XQ.SDK.Model
             return RawContent;
         }
 
+        public override string ToString()
+        {
+            return ToSendString();
+        }
+
         /// <summary>
         ///     获取语音消息
         ///     若不是语音消息将返回null

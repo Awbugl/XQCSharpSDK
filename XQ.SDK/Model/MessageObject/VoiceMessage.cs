@@ -29,6 +29,11 @@ namespace XQ.SDK.Model.MessageObject
             return _sendString;
         }
 
+        public override string ToString()
+        {
+            return ToSendString();
+        }
+
         /// <summary>
         ///     语音信息的下载链接(silk格式)
         /// </summary>

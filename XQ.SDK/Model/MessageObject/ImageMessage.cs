@@ -248,5 +248,10 @@ namespace XQ.SDK.Model.MessageObject
                 i?.Dispose();
             }
         }
+
+        public override string ToString()
+        {
+            return ToSendString();
+        }
     }
 }
