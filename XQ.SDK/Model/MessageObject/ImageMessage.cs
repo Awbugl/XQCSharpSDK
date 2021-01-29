@@ -55,6 +55,7 @@ namespace XQ.SDK.Model.MessageObject
 
         /// <summary>
         ///     将群聊图片消息进行转换，使其可在私聊中发送
+        ///     代码逻辑来自w4123/CQXQ
         /// </summary>
         public PlainMessage GroupToPrivate()
         {

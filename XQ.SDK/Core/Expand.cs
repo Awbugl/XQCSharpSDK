@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+
 using XQ.SDK.Interface;
 
 namespace XQ.SDK.Core
@@ -25,14 +26,14 @@ namespace XQ.SDK.Core
         /// </summary>
         public static List<string> SplitToList(this string str)
         {
-            return str.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
+            return str.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList();
         }
 
         /// <summary>
         ///     将IntPtrToString中未转换的[em]exxxxxx[/em]转换为Emoji码
         ///     代码逻辑来自w4123/CQXQ
         /// </summary>
-        private static string NickToSendString(this string msg)
+        private static string EmojiToSendString(this string msg)
         {
             var ret = new StringBuilder();
             var last = 0;
@@ -76,17 +77,33 @@ namespace XQ.SDK.Core
                 if (length <= 0) return "";
                 var bin = new byte[length];
                 Marshal.Copy(IntPtr.Add(intPtr, 4), bin, 0, length);
-                var sb = new StringBuilder();
-                for (var i = 0; i < length - 1;)
-                    sb.Append(EncodingGetString(Gb18030, bin, ref i, bin[i] < 0x80 ? 1 : bin[i + 1] > 0x3F ? 2 : 4));
-                if (length > 1 && bin[length - 2] > 0x80) return sb.ToString();
-                sb.Append(Gb18030.GetString(bin, length - 1, 1));
-                return NickToSendString(sb.ToString());
+                return EmojiToSendString(BytesToString(bin));
             }
             finally
             {
                 Kernel32.HeapFree(Kernel32.GetProcessHeap(), 0, intPtr);
             }
+        }
+
+        /// <summary>
+        ///     将文本中的编码错位部分转换成Emoji码
+        /// </summary>
+        /// <param name="utf8String">要发送的消息</param>
+        /// <returns></returns>
+        private static string Utf8ToSendString(this string utf8String)
+        {
+            return BytesToString(Encoding.Convert(Encoding.UTF8, Gb18030, Encoding.UTF8.GetBytes(utf8String)));
+        }
+
+        private static string BytesToString(byte[] bin)
+        {
+            var length = bin.Length;
+            var sb = new StringBuilder();
+            for (var i = 0; i < length - 1;)
+                sb.Append(EncodingGetString(Gb18030, bin, ref i, bin[i] < 0x80 ? 1 : bin[i + 1] > 0x3F ? 2 : 4));
+            if (length > 1 && bin[length - 2] > 0x80) return sb.ToString();
+            sb.Append(Gb18030.GetString(bin, length - 1, 1));
+            return sb.ToString();
         }
 
         /// <summary>
@@ -120,15 +137,16 @@ namespace XQ.SDK.Core
                         builder.Append(objs.ToSend());
                         break;
                     case string str:
-                        builder.Append(str);
+                        builder.Append(str.Utf8ToSendString());
                         break;
                     case IToSendString toSend:
-                        builder.Append(toSend.ToSendString());
+                        builder.Append(toSend.ToSendString().Utf8ToSendString());
                         break;
                     default:
-                        builder.Append(t);
+                        builder.Append(t.ToString().Utf8ToSendString());
                         break;
                 }
+
             return builder.ToString();
         }
     }
