@@ -50,7 +50,7 @@ namespace XQ.Core.Export
             try
             {
                 Destroy();
-                AppDomain.CreateDomain("Unload").DoCallBack(Global.Unload);
+                AppDomain.CreateDomain("Unload").DoCallBack(() => AppDomain.Unload(AppDomain.CurrentDomain));
                 return 1;
             }
             catch (Exception e)

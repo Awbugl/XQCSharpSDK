@@ -39,10 +39,5 @@ namespace XQ.Core.Export
                 ExceptionReport(ex);
             }
         }
-
-        public static void Unload()
-        {
-            AppDomain.Unload(AppDomain.CurrentDomain);
-        }
     }
 }
