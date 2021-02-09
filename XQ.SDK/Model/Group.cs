@@ -96,10 +96,10 @@ namespace XQ.SDK.Model
         ///     当Bot不为管理员时报错
         /// </summary>
         /// <param name="qq">群成员QQ</param>
-        /// <param name="allow">指定是否不再允许接受申请入群</param>
-        public void KickGroupMember(Qq qq, bool allow)
+        /// <param name="notallowagain">指定是否不再允许接受申请入群</param>
+        public void KickGroupMember(Qq qq, bool notallowagain)
         {
-            XqApi.KickGroupMember(Robot, Id, qq.Id, allow);
+            XqApi.KickGroupMember(Robot, Id, qq.Id, notallowagain);
         }
 
         /// <summary>

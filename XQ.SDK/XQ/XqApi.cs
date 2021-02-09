@@ -342,10 +342,10 @@ namespace XQ.SDK.XQ
         /// <param name="robot">botQQ</param>
         /// <param name="group">群号</param>
         /// <param name="qq">对象QQ</param>
-        /// <param name="allow">指定是否不再允许接受申请入群</param>
-        public void KickGroupMember(string robot, string group, string qq, bool allow)
+        /// <param name="notallowagain">指定是否不再允许接受申请入群</param>
+        public void KickGroupMember(string robot, string group, string qq, bool notallowagain)
         {
-            XqDll.KickGroupMBR(_authid, robot, group, qq, allow);
+            XqDll.KickGroupMBR(_authid, robot, group, qq, notallowagain);
         }
 
         /// <summary>
