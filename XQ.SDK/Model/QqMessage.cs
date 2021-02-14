@@ -49,11 +49,16 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     获取图片消息
         ///     若不含图片消息将返回null
+        ///     注意：只能获取普通图片，特殊类型图片请参考ImageMessage.GetFromMessage的实现自行解析
         /// </summary>
-        /// <returns></returns>
         public List<ImageMessage> GetImageMessages()
         {
             return ImageMessage.GetFromMessage(_xqapi, _robotqq, RawContent);
+        }
+
+        public static implicit operator string(QqMessage msg)
+        {
+            return msg.RawContent;
         }
     }
 }

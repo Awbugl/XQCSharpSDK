@@ -143,7 +143,6 @@ namespace XQ.SDK.Model.MessageObject
         /// <param name="robotqq"></param>
         /// <param name="message"></param>
         /// <param name="xqApi"></param>
-        /// <returns>是否获取成功</returns>
         public static List<ImageMessage> GetFromMessage(XqApi xqApi, string robotqq, string message)
         {
             try

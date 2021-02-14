@@ -54,7 +54,7 @@ namespace XQ.SDK.Model.MessageObject
 
 
         /// <summary>
-        ///     获取语音消息的Guid
+        ///     获取语音消息
         /// </summary>
         /// <param name="message"></param>
         /// <param name="api"></param>
