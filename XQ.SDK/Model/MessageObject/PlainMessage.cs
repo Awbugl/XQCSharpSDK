@@ -23,7 +23,7 @@ namespace XQ.SDK.Model.MessageObject
         public static PlainMessage Time = new PlainMessage("[Time]");
 
         /// <summary>
-        ///     表示当前时间时间，例：18:00
+        ///     表示当前时间，例：18:00
         /// </summary>
         public static PlainMessage NumTime = new PlainMessage("[NumTime]");
 

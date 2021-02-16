@@ -1,4 +1,6 @@
-﻿namespace XQ.SDK.Enum.Event
+﻿using System;
+
+namespace XQ.SDK.Enum.Event
 {
     /// <summary>
     ///     群事件对应的eventType
@@ -69,6 +71,13 @@
         ///     某人申请入群
         /// </summary>
         JoinGroupRequest = 213,
+
+        /// <summary>
+        ///     Robot被邀请入群
+        ///     请在 IGroupAddRequest 接口进行处理
+        /// </summary>
+        [Obsolete]
+        RobotBeInvitedToGroup = 214,
 
         /// <summary>
         ///     某人被邀请入群
