@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using XQ.SDK.Enum;
 using XQ.SDK.Enum.Event;
@@ -208,7 +209,11 @@ namespace XQ.Core.Export
                     case 12001: // PluginEnabled
                         if (!Global.Container.CanResolve<IAppEnable>())
                             return (int)XqEventReturnType.Ignore;
-                        Global.Container.Resolve<IAppEnable>().AppEnable(Global.XqApi);
+                        new Thread(() =>
+                        {
+                            Thread.Sleep(1000);
+                            Global.Container.Resolve<IAppEnable>().AppEnable(Global.XqApi);
+                        }).Start();
                         break;
 
                     case 12002: // PluginDisabled

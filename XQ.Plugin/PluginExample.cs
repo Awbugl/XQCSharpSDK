@@ -1,5 +1,6 @@
 ﻿using XQ.SDK.EventArgs;
 using XQ.SDK.Interface;
+using XQ.SDK.XQ;
 
 namespace XQ.Plugin
 {
@@ -9,7 +10,7 @@ namespace XQ.Plugin
     ///     需要在XQ.Core.ExportMain.cs 中的AddRegister函数中注册插件
     ///     由于托管环境限制和XQ插件缓存机制，更新插件后(无论之前是否加载成功)请重启XQ框架
     /// </summary>
-    public class PluginExample : IPrivateMessage, IGroupMessage, IGroupEvent, IGroupAddRequest
+    public class PluginExample : IPrivateMessage, IGroupMessage, IGroupEvent, IGroupAddRequest, IAppEnable
     {
         public void GroupAddRequest(GroupAddRequestEventArgs e)
         {
@@ -24,6 +25,10 @@ namespace XQ.Plugin
         }
 
         public void PrivateMessage(PrivateMessageEventArgs e)
+        {
+        }
+
+        public void AppEnable(XqApi xqApi)
         {
         }
     }
