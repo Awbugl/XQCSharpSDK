@@ -76,6 +76,8 @@
     <Compile Include="Core\TinyIOC\TinyIoCResolutionException.cs" />
     <Compile Include="Core\TinyIOC\TypeExtensions.cs" />
     <Compile Include="Core\TinyIOC\UnregisteredResolutionActions.cs" />
+    <Compile Include="EventArgs\JoinGroupRequestEventArgs.cs" />
+    <Compile Include="Interface\IJoinGroupRequest.cs" />
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Enum\Event\FrameEventEventType.cs" />
     <Compile Include="Enum\Event\RobotEventEventType.cs" />
@@ -97,7 +99,7 @@
     <Compile Include="EventArgs\RobotEventEventArgs.cs" />
     <Compile Include="EventArgs\FriendAddRequestEventArgs.cs" />
     <Compile Include="EventArgs\FriendEventArgs.cs" />
-    <Compile Include="EventArgs\GroupAddRequestEventArgs.cs" />
+    <Compile Include="EventArgs\BeInvitedToGroupEventArgs.cs" />
     <Compile Include="EventArgs\GroupEchoMessageEventArgs.cs" />
     <Compile Include="EventArgs\GroupEventEventArgs.cs" />
     <Compile Include="EventArgs\GroupMessageEventArgs.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="Interface\IFrameEvent.cs" />
     <Compile Include="Interface\IFriendAddRequest.cs" />
     <Compile Include="Interface\IFriendEvent.cs" />
-    <Compile Include="Interface\IGroupAddRequest.cs" />
+    <Compile Include="Interface\IBeInvitedToGroup.cs" />
     <Compile Include="Interface\IGroupEchoMessage.cs" />
     <Compile Include="Interface\IGroupEvent.cs" />
     <Compile Include="Interface\IGroupMessage.cs" />

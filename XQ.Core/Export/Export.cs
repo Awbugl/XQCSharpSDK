@@ -171,7 +171,8 @@ namespace XQ.Core.Export
                         if (!Global.Container.CanResolve<ITransfer>())
                             return (int)XqEventReturnType.Ignore;
                         eventargs = new TransferEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<ITransfer>().Transfer((TransferEventArgs)eventargs);
+                        Global.Container.Resolve<ITransfer>()
+                            .Transfer((TransferEventArgs)eventargs);
                         break;
 
                     case 9: // WithDraw
@@ -198,12 +199,21 @@ namespace XQ.Core.Export
                             .FriendAddRequest((FriendAddRequestEventArgs)eventargs);
                         break;
 
-                    case 214: // BeInvitedToGroup
-                        if (!Global.Container.CanResolve<IGroupAddRequest>())
+                    case 213: // JoinGroupRequest
+                    case 215: // SomeoneBeInvitedToGroup
+                        if (!Global.Container.CanResolve<IJoinGroupRequest>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new GroupAddRequestEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IGroupAddRequest>()
-                            .GroupAddRequest((GroupAddRequestEventArgs)eventargs);
+                        eventargs = new JoinGroupRequestEventArgs(Global.XqApi, args);
+                        Global.Container.Resolve<IJoinGroupRequest>()
+                            .JoinGroupRequest((JoinGroupRequestEventArgs)eventargs);
+                        break;
+
+                    case 214: // BeInvitedToGroup
+                        if (!Global.Container.CanResolve<IBeInvitedToGroup>())
+                            return (int)XqEventReturnType.Ignore;
+                        eventargs = new BeInvitedToGroupEventArgs(Global.XqApi, args);
+                        Global.Container.Resolve<IBeInvitedToGroup>()
+                            .BeInvitedToGroupRequest((BeInvitedToGroupEventArgs)eventargs);
                         break;
 
                     case 12001: // PluginEnabled

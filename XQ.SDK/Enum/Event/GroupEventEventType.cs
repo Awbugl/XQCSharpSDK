@@ -69,7 +69,9 @@ namespace XQ.SDK.Enum.Event
 
         /// <summary>
         ///     某人申请入群
+        ///     请在 IJoinGroupRequest 接口进行处理
         /// </summary>
+        [Obsolete]
         JoinGroupRequest = 213,
 
         /// <summary>
@@ -81,7 +83,9 @@ namespace XQ.SDK.Enum.Event
 
         /// <summary>
         ///     某人被邀请入群
+        ///     请在 IJoinGroupRequest 接口进行处理
         /// </summary>
+        [Obsolete]
         SomeoneBeInvitedToGroup = 215,
 
         /// <summary>

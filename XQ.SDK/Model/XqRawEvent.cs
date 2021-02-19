@@ -2,7 +2,7 @@
 
 namespace XQ.SDK.Model
 {
-    public readonly struct XqRawEvent
+    public class XqRawEvent
     {
         /// <summary>
         ///     机器人QQ
@@ -95,6 +95,23 @@ namespace XQ.SDK.Model
             Udpmsg = udpmsg?.Trim();
             Unix = unix?.Trim();
             Intptr = new IntPtr(p);
+        }
+
+        public override string ToString()
+        {
+            return
+                $"RobotQq : {RobotQq}\n" +
+                $"EventType : {EventType}\n" +
+                $"ExtraType : {ExtraType}\n" +  
+                $"From : {From}\n" +
+                $"FromQq : {FromQq}\n" +
+                $"TargetQq : {TargetQq}\n" +
+                $"Content : {Content}\n" +
+                $"Index : {Index}\n" +
+                $"Udpmsg : {Udpmsg}\n" +
+                $"Udpmsg : {Udpmsg}\n" +
+                $"Unix : {Unix}\n" +
+                $"Intptr : {Intptr}";
         }
     }
 }

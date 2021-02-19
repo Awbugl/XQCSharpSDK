@@ -1,4 +1,6 @@
-﻿namespace XQ.SDK.Enum.Event
+﻿using System;
+
+namespace XQ.SDK.Enum.Event
 {
     /// <summary>
     ///     好友、群临时事件对应的eventType
@@ -9,10 +11,12 @@
         ///     被单项添加为好友
         /// </summary>
         BeAddedAsOneWayFriend = 100,
-
+        
         /// <summary>
         ///     某人请求加为好友
+        ///     请在 IFriendAddRequest 接口进行处理
         /// </summary>
+        [Obsolete]
         AddFriendRequest = 101,
 
         /// <summary>

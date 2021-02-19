@@ -17,7 +17,6 @@ namespace XQ.Core
         {
             Init.Register<IGroupEvent, PluginExample>();
             Init.Register<IPrivateMessage, PluginExample>();
-            Init.Register<IGroupAddRequest, PluginExample>();
             Init.Register<IGroupMessage, PluginExample>();
 
             return new PluginInfo(

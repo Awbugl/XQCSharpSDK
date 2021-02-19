@@ -5,11 +5,11 @@ namespace XQ.SDK.Interface
     /// <summary>
     ///     被邀请入群事件接口
     /// </summary>
-    public interface IGroupAddRequest : IXqEvent
+    public interface IBeInvitedToGroup : IXqEvent
     {
         /// <summary>
         ///     处理被邀请入群事件
         /// </summary>
-        void GroupAddRequest(GroupAddRequestEventArgs e);
+        void BeInvitedToGroupRequest(BeInvitedToGroupEventArgs e);
     }
 }
