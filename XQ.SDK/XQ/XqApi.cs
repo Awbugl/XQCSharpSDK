@@ -223,7 +223,7 @@ namespace XQ.SDK.XQ
         /// <param name="imageGuid">图片</param>
         public string GetPicLink(MessageType imageType, string group, ImageMessage imageGuid)
         {
-            return XqDll.GetPicLink(_authid, imageGuid.RobotQq, System.Enum.IsDefined(typeof(PrivateMessageType), imageType) ? 1 : 2, group, imageGuid.ToSendString()).IntPtrToString();
+            return XqDll.GetPicLink(_authid, imageGuid.RobotQq, System.Enum.IsDefined(typeof(PrivateMessageType), (int)imageType) ? 1 : 2, group, imageGuid.ToSendString()).IntPtrToString();
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace XQ.SDK.XQ
         /// <param name="message">要上传的图片</param>
         public ImageMessage UpLoadPic(string robot, MessageType imageType, string groupOrQq, byte[] message)
         {
-            return ImageMessage.GetFromMessage(this, robot, XqDll.UpLoadPic(_authid, robot, System.Enum.IsDefined(typeof(PrivateMessageType), imageType) ? 1 : 2, groupOrQq, message).IntPtrToString()).FirstOrDefault();
+            return ImageMessage.GetFromMessage(this, robot, XqDll.UpLoadPic(_authid, robot, System.Enum.IsDefined(typeof(PrivateMessageType), (int)imageType) ? 1 : 2, groupOrQq, message).IntPtrToString()).FirstOrDefault();
         }
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace XQ.SDK.XQ
         public VoiceMessage UpLoadVoice(string robot, MessageType type, string groupOrQq, byte[] message)
         {
             return VoiceMessage.GetFromMessage(this, robot, 
-                XqDll.UpLoadVoice(_authid, robot, System.Enum.IsDefined(typeof(PrivateMessageType), type) ? 1 : 2, groupOrQq, message).IntPtrToString());
+                XqDll.UpLoadVoice(_authid, robot, System.Enum.IsDefined(typeof(PrivateMessageType), (int)type) ? 1 : 2, groupOrQq, message).IntPtrToString());
         }
 
         /// <summary>
@@ -546,7 +546,7 @@ namespace XQ.SDK.XQ
         public string VoiToText(string groupOrQq, MessageType type, VoiceMessage obj)
         {
             return XqDll.VoiToText(_authid, obj.RobotQq, groupOrQq, 
-                System.Enum.IsDefined(typeof(PrivateMessageType), type) ? 1 : 2, obj.ToSendString()).IntPtrToString();
+                System.Enum.IsDefined(typeof(PrivateMessageType), (int)type) ? 1 : 2, obj.ToSendString()).IntPtrToString();
         }
 
         /// <summary>

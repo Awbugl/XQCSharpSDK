@@ -6,16 +6,16 @@ namespace XQ.SDK.EventArgs
 {
     /// <summary>
     ///     被邀请入群事件
-    ///     对应IGroupAddRequest接口
+    ///     对应IBeInvitedToGroup接口
     /// </summary>
-    public class GroupAddRequestEventArgs : GroupEventEventArgs
+    public class BeInvitedToGroupEventArgs : GroupEventEventArgs
     {
         /// <summary>
         ///     事件构造函数
         /// </summary>
         /// <param name="xqApi">XQApi</param>
         /// <param name="rawEvent">XQEvent的原始参数</param>
-        public GroupAddRequestEventArgs(XqApi xqApi, XqRawEvent rawEvent) : base(xqApi, rawEvent)
+        public BeInvitedToGroupEventArgs(XqApi xqApi, XqRawEvent rawEvent) : base(xqApi, rawEvent)
         {
         }
 

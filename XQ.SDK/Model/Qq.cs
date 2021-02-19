@@ -125,18 +125,15 @@ namespace XQ.SDK.Model
 
         private PrivateMessageType GetPrivateMessageType(MessageType type)
         {
-            if (System.Enum.IsDefined(typeof(PrivateMessageType), type)) return (PrivateMessageType) type;
+            if (System.Enum.IsDefined(typeof(PrivateMessageType), (int)type)) return (PrivateMessageType) type;
 
-            switch (type)
+            return type switch
             {
-                case MessageType.Group:
-                    return IfFriend() ? PrivateMessageType.Friend : PrivateMessageType.TempGroupMessage;
-                case MessageType.MsgWithdrawn:
-                case MessageType.Transfer:
-                    return GetPrivateMessageType((MessageType) _extratype);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                MessageType.Group => IfFriend() ? PrivateMessageType.Friend : PrivateMessageType.TempGroupMessage,
+                MessageType.MsgWithdrawn => GetPrivateMessageType((MessageType) _extratype),
+                MessageType.Transfer => GetPrivateMessageType((MessageType) _extratype),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
 
