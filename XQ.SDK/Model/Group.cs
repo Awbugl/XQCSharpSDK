@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using XQ.SDK.Enum;
 using XQ.SDK.Model.Json;
 using XQ.SDK.XQ;
@@ -141,11 +142,10 @@ namespace XQ.SDK.Model
         /// <summary>
         ///     发送群聊消息
         /// </summary>
-        /// <param name="anonymous">选择是否匿名发送,在群聊不允许发送匿名消息时无效</param>
         /// <param name="msg"></param>
-        public void SendGroupMessage(bool anonymous, params object[] msg)
+        public void SendGroupMessage(params object[] msg)
         {
-            XqApi.SendGroupMessage(Robot, Id, anonymous && GetAnon(), msg);
+            XqApi.SendGroupMessage(Robot, Id, false, msg);
         }
 
         public static implicit operator string(Group group)

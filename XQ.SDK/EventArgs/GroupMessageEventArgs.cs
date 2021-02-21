@@ -1,4 +1,5 @@
-﻿using XQ.SDK.Model;
+﻿using XQ.SDK.Enum;
+using XQ.SDK.Model;
 using XQ.SDK.Model.MessageObject;
 using XQ.SDK.XQ;
 
@@ -26,14 +27,20 @@ namespace XQ.SDK.EventArgs
             string.IsNullOrWhiteSpace(RawEvent.From) ? null : new Group(XqApi, Robot, RawEvent.From);
 
         /// <summary>
+        ///     撤回此条消息
+        /// </summary>
+        public void WithdrawMessage() =>
+            XqApi.WithdrawMsg(Robot, MessageType.Group, FromGroup, FromQq, RawEvent.Index,
+            RawEvent.Msgid, RawEvent.Unix);
+
+        /// <summary>
         ///     群聊回复消息
         /// </summary>
-        /// <param name="anonymous">选择是否匿名发送,在群聊不允许发送匿名消息时无效</param>
         /// <param name="at">选择是否at</param>
         /// <param name="msg">要发送的消息</param>
-        public void ReplyAsGroupMessage(bool anonymous, bool at, params object[] msg)
+        public void ReplyAsGroupMessage(bool at, params object[] msg)
         {
-            FromGroup.SendGroupMessage(anonymous, at ? PlainMessage.At(FromQq) : null, msg);
+            FromGroup.SendGroupMessage(at ? PlainMessage.At(FromQq) + "\n" : null, msg);
         }
 
         /// <summary>
