@@ -10,7 +10,7 @@ using XQ.SDK.Enum.Event;
 using XQ.SDK.EventArgs;
 using XQ.SDK.Interface;
 using XQ.SDK.Model;
-using XQ.SDK.XQ;
+using static XQ.Global.Global;
 
 namespace XQ.Core.Export
 {
@@ -26,7 +26,7 @@ namespace XQ.Core.Export
             }
             catch (Exception e)
             {
-                Global.ExceptionReport(e, false);
+                ExceptionReport(e, false);
                 return "";
             }
         }
@@ -41,7 +41,7 @@ namespace XQ.Core.Export
             }
             catch (Exception e)
             {
-                Global.ExceptionReport(e, false);
+                ExceptionReport(e, false);
             }
         }
 
@@ -56,7 +56,7 @@ namespace XQ.Core.Export
             }
             catch (Exception e)
             {
-                Global.ExceptionReport(e, false);
+                ExceptionReport(e, false);
                 return 1;
             }
         }
@@ -77,30 +77,32 @@ namespace XQ.Core.Export
 
         public static string Create()
         {
-            AppDomain.CurrentDomain.UnhandledException += Global.CurrentDomainUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => ExceptionReport(e.ExceptionObject as Exception);
 
-            Global.PluginInfo = ExportMain.AddRegister() ??
-                                new PluginInfo("XQCSharpSDKTest", "littlenine12", "1.0.0", "未找到插件");
-            var appDir = Directory.GetCurrentDirectory() + $@"\Config\{Global.PluginInfo.Name}\";
-            if (!Directory.Exists(appDir)) Directory.CreateDirectory(appDir);
-            return Global.PluginInfo.GetJson();
+            var info = ExportMain.AddRegister() ?? new PluginInfo("XQCSharpSDKTest", "littlenine12", "1.0.0", "未找到插件");
+
+            SetInfo(info);
+
+            if (!Directory.Exists(ConfigPath)) Directory.CreateDirectory(ConfigPath);
+
+            return info.GetJson();
         }
 
         public static void AuthId(int id, int addr)
         {
-            Global.XqApi = new XqApi(BitConverter.GetBytes(id).Concat(BitConverter.GetBytes(addr)).ToArray());
+            SetApi(BitConverter.GetBytes(id).Concat(BitConverter.GetBytes(addr)).ToArray());
         }
 
         public static void Destroy()
         {
             try
             {
-                if (Global.Container.CanResolve<IPluginDestroy>())
-                    Global.Container.Resolve<IPluginDestroy>().PluginDestroy(Global.XqApi);
+                if (Init.Container.CanResolve<IPluginDestroy>())
+                    Init.Container.Resolve<IPluginDestroy>().PluginDestroy(Global.Global.XqApi);
             }
             catch (Exception e)
             {
-                Global.ExceptionReport(e, false);
+                ExceptionReport(e, false);
             }
         }
 
@@ -108,13 +110,13 @@ namespace XQ.Core.Export
         {
             try
             {
-                if (Global.Container.CanResolve<ICallMenu>())
-                    Global.Container.Resolve<ICallMenu>().CallMenu(Global.XqApi);
+                if (Init.Container.CanResolve<ICallMenu>())
+                    Init.Container.Resolve<ICallMenu>().CallMenu(Global.Global.XqApi);
                 return 0;
             }
             catch (Exception e)
             {
-                Global.ExceptionReport(e);
+                ExceptionReport(e);
                 return 1;
             }
         }
@@ -152,118 +154,118 @@ namespace XQ.Core.Export
                     case 4:
                     case 5:
                     case 7: //Private
-                        if (!Global.Container.CanResolve<IPrivateMessage>())
+                        if (!Init.Container.CanResolve<IPrivateMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new PrivateMessageEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IPrivateMessage>()
+                        eventargs = new PrivateMessageEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IPrivateMessage>()
                             .PrivateMessage((PrivateMessageEventArgs)eventargs);
                         break;
 
                     case 2: // Group:
-                        if (!Global.Container.CanResolve<IGroupMessage>())
+                        if (!Init.Container.CanResolve<IGroupMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new GroupMessageEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IGroupMessage>()
+                        eventargs = new GroupMessageEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IGroupMessage>()
                             .GroupMessage((GroupMessageEventArgs)eventargs);
                         break;
 
                     case 6: //Transfer
-                        if (!Global.Container.CanResolve<ITransfer>())
+                        if (!Init.Container.CanResolve<ITransfer>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new TransferEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<ITransfer>()
+                        eventargs = new TransferEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<ITransfer>()
                             .Transfer((TransferEventArgs)eventargs);
                         break;
 
                     case 9: // WithDraw
-                        if (!Global.Container.CanResolve<IWithDrawMessage>())
+                        if (!Init.Container.CanResolve<IWithDrawMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new WithDrawMessageEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IWithDrawMessage>()
+                        eventargs = new WithDrawMessageEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IWithDrawMessage>()
                             .WithDrawMessage((WithDrawMessageEventArgs)eventargs);
                         break;
 
                     case 10: // GroupEcho
-                        if (!Global.Container.CanResolve<IGroupEchoMessage>())
+                        if (!Init.Container.CanResolve<IGroupEchoMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new GroupEchoMessageEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IGroupEchoMessage>()
+                        eventargs = new GroupEchoMessageEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IGroupEchoMessage>()
                             .GroupEchoMessage((GroupEchoMessageEventArgs)eventargs);
                         break;
 
                     case 101: // AddFriendRequest
-                        if (!Global.Container.CanResolve<IFriendAddRequest>())
+                        if (!Init.Container.CanResolve<IFriendAddRequest>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new FriendAddRequestEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IFriendAddRequest>()
+                        eventargs = new FriendAddRequestEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IFriendAddRequest>()
                             .FriendAddRequest((FriendAddRequestEventArgs)eventargs);
                         break;
 
                     case 213: // JoinGroupRequest
                     case 215: // SomeoneBeInvitedToGroup
-                        if (!Global.Container.CanResolve<IJoinGroupRequest>())
+                        if (!Init.Container.CanResolve<IJoinGroupRequest>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new JoinGroupRequestEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IJoinGroupRequest>()
+                        eventargs = new JoinGroupRequestEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IJoinGroupRequest>()
                             .JoinGroupRequest((JoinGroupRequestEventArgs)eventargs);
                         break;
 
                     case 214: // BeInvitedToGroup
-                        if (!Global.Container.CanResolve<IBeInvitedToGroup>())
+                        if (!Init.Container.CanResolve<IBeInvitedToGroup>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new BeInvitedToGroupEventArgs(Global.XqApi, args);
-                        Global.Container.Resolve<IBeInvitedToGroup>()
+                        eventargs = new BeInvitedToGroupEventArgs(Global.Global.XqApi, args);
+                        Init.Container.Resolve<IBeInvitedToGroup>()
                             .BeInvitedToGroupRequest((BeInvitedToGroupEventArgs)eventargs);
                         break;
 
                     case 12001: // PluginEnabled
-                        if (!Global.Container.CanResolve<IAppEnable>())
+                        if (!Init.Container.CanResolve<IAppEnable>())
                             return (int)XqEventReturnType.Ignore;
                         new Thread(() =>
                         {
                             Thread.Sleep(1000);
-                            Global.Container.Resolve<IAppEnable>().AppEnable(Global.XqApi);
+                            Init.Container.Resolve<IAppEnable>().AppEnable(Global.Global.XqApi);
                         }).Start();
                         break;
 
                     case 12002: // PluginDisabled
-                        if (!Global.Container.CanResolve<IAppDisable>())
+                        if (!Init.Container.CanResolve<IAppDisable>())
                             return (int)XqEventReturnType.Ignore;
-                        Global.Container.Resolve<IAppDisable>().AppDisable(Global.XqApi);
+                        Init.Container.Resolve<IAppDisable>().AppDisable(Global.Global.XqApi);
                         break;
 
                     default:
 
                         if (Enum.IsDefined(typeof(FriendEventEventType), eventType))
                         {
-                            if (!Global.Container.CanResolve<IFriendEvent>())
+                            if (!Init.Container.CanResolve<IFriendEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new FriendEventArgs(Global.XqApi, args);
-                            Global.Container.Resolve<IFriendEvent>().FriendEvent((FriendEventArgs)eventargs);
+                            eventargs = new FriendEventArgs(Global.Global.XqApi, args);
+                            Init.Container.Resolve<IFriendEvent>().FriendEvent((FriendEventArgs)eventargs);
                         }
 
                         if (Enum.IsDefined(typeof(GroupEventEventType), eventType))
                         {
-                            if (!Global.Container.CanResolve<IGroupEvent>())
+                            if (!Init.Container.CanResolve<IGroupEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new GroupEventEventArgs(Global.XqApi, args);
-                            Global.Container.Resolve<IGroupEvent>().GroupEvent((GroupEventEventArgs)eventargs);
+                            eventargs = new GroupEventEventArgs(Global.Global.XqApi, args);
+                            Init.Container.Resolve<IGroupEvent>().GroupEvent((GroupEventEventArgs)eventargs);
                         }
 
                         if (Enum.IsDefined(typeof(RobotEventEventType), eventType))
                         {
-                            if (!Global.Container.CanResolve<IRobotEvent>())
+                            if (!Init.Container.CanResolve<IRobotEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new RobotEventEventArgs(Global.XqApi, args);
-                            Global.Container.Resolve<IRobotEvent>().RobotEvent((RobotEventEventArgs)eventargs);
+                            eventargs = new RobotEventEventArgs(Global.Global.XqApi, args);
+                            Init.Container.Resolve<IRobotEvent>().RobotEvent((RobotEventEventArgs)eventargs);
                         }
 
                         if (Enum.IsDefined(typeof(FrameEventEventType), eventType))
                         {
-                            if (!Global.Container.CanResolve<IFrameEvent>())
+                            if (!Init.Container.CanResolve<IFrameEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new FrameEventArgs(Global.XqApi, args);
-                            Global.Container.Resolve<IFrameEvent>().FrameEvent((FrameEventArgs)eventargs);
+                            eventargs = new FrameEventArgs(Global.Global.XqApi, args);
+                            Init.Container.Resolve<IFrameEvent>().FrameEvent((FrameEventArgs)eventargs);
                         }
 
                         break;
@@ -275,7 +277,7 @@ namespace XQ.Core.Export
             }
             catch (Exception ex)
             {
-                Global.ExceptionReport(ex);
+                ExceptionReport(ex);
                 return (int)XqEventReturnType.Ignore;
             }
         }

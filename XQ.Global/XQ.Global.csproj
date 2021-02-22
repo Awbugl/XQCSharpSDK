@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{517F57EE-4882-4054-A122-734903BA9AB3}</ProjectGuid>
+    <ProjectGuid>{47584739-231C-4513-BBA4-E576890960A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XQ.Plugin</RootNamespace>
-    <AssemblyName>XQ.Plugin</AssemblyName>
+    <RootNamespace>XQ.Global</RootNamespace>
+    <AssemblyName>XQ.Global</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -47,23 +47,18 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
-    <ErrorReport>none</ErrorReport>
+    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PluginExample.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XQ.Global\XQ.Global.csproj">
-      <Project>{47584739-231c-4513-bba4-e576890960a1}</Project>
-      <Name>XQ.Global</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XQ.SDK\XQ.SDK.csproj">
       <Project>{6b6664a8-e436-4b35-9040-8247de86ec89}</Project>
       <Name>XQ.SDK</Name>

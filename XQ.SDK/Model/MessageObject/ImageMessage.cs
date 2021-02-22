@@ -241,7 +241,7 @@ namespace XQ.SDK.Model.MessageObject
             {
                 i = Image.FromStream(GetFromWeb(GetImageDownloadLink(group, type)));
                 i.Save(filename);
-                return FromFileName(_xqApi, RobotQq, $@"{Directory.GetCurrentDirectory()}\{filename}");
+                return FromFileName(_xqApi, RobotQq, $@"{AppContext.BaseDirectory}\{filename}");
             }
             finally
             {

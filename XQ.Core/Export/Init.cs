@@ -1,12 +1,15 @@
-﻿using XQ.SDK.Interface;
+﻿using XQ.SDK.Core.TinyIOC;
+using XQ.SDK.Interface;
 
 namespace XQ.Core.Export
 {
-    public static class Init
+    internal static class Init
     {
-        public static void Register<T, TU>() where TU : class, T where T : class, IXqEvent
+        internal static TinyIoCContainer Container { get; } = new TinyIoCContainer();
+
+        internal static void Register<T, TU>() where TU : class, T where T : class, IXqEvent
         {
-            Global.Container.Register<T, TU>();
+            Container.Register<T, TU>();
         }
     }
 }

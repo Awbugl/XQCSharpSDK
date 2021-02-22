@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XQ.SDK", "XQ.SDK\XQ.SDK.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XQ.Core", "XQ.Core\XQ.Core.csproj", "{C03C5BB7-91D0-4894-AAF9-127090DFAD91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XQ.Global", "XQ.Global\XQ.Global.csproj", "{47584739-231C-4513-BBA4-E576890960A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,14 @@ Global
 		{C03C5BB7-91D0-4894-AAF9-127090DFAD91}.Release|Any CPU.ActiveCfg = Release|x86
 		{C03C5BB7-91D0-4894-AAF9-127090DFAD91}.Release|x86.ActiveCfg = Release|x86
 		{C03C5BB7-91D0-4894-AAF9-127090DFAD91}.Release|x86.Build.0 = Release|x86
+		{47584739-231C-4513-BBA4-E576890960A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Debug|x86.Build.0 = Debug|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47584739-231C-4513-BBA4-E576890960A1}.Release|x86.ActiveCfg = Release|x86
+		{47584739-231C-4513-BBA4-E576890960A1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

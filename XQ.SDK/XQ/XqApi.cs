@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
 using Newtonsoft.Json;
+
 using XQ.SDK.Core;
 using XQ.SDK.Enum;
 using XQ.SDK.Model;
@@ -139,6 +141,18 @@ namespace XQ.SDK.XQ
                     .Select(i => new Group(this, robot, i)).ToList();
             }
         }
+        
+        /// <summary>
+        /// 获取群成员信息列表
+        /// </summary>
+        /// <param name="robot">botQQ</param>
+        /// <param name="group">群号</param>
+        public Dictionary<string, GroupMemberInfoJson> GetGroupMemberInfoList(string robot, string group)
+        {
+            return JsonConvert
+                .DeserializeObject<GroupMemberList>(XqDll.GetGroupMemberList_B(_authid, robot, group).IntPtrToString())
+                .Members;
+        }
 
         /// <summary>
         /// 获取群成员列表
@@ -149,7 +163,7 @@ namespace XQ.SDK.XQ
         {
             try
             {
-                return JsonConvert.DeserializeObject<GroupMemberList>(XqDll.GetGroupMemberList_B(_authid, robot, group).IntPtrToString()).Members
+                return GetGroupMemberInfoList(robot,group)
                     .Select(i => new Qq(this, robot, i.Key, i.Value.Name, MessageType.Group, group)).ToList();
             }
             catch
@@ -523,7 +537,7 @@ namespace XQ.SDK.XQ
         /// <param name="groupOrQq">发送对象的群号或QQ</param>
         public VoiceMessage UpLoadVoice(string robot, MessageType type, string groupOrQq, byte[] message)
         {
-            return VoiceMessage.GetFromMessage(this, robot, 
+            return VoiceMessage.GetFromMessage(this, robot,
                 XqDll.UpLoadVoice(_authid, robot, System.Enum.IsDefined(typeof(PrivateMessageType), (int)type) ? 1 : 2, groupOrQq, message).IntPtrToString());
         }
 
@@ -545,7 +559,7 @@ namespace XQ.SDK.XQ
         /// <returns></returns>
         public string VoiToText(string groupOrQq, MessageType type, VoiceMessage obj)
         {
-            return XqDll.VoiToText(_authid, obj.RobotQq, groupOrQq, 
+            return XqDll.VoiToText(_authid, obj.RobotQq, groupOrQq,
                 System.Enum.IsDefined(typeof(PrivateMessageType), (int)type) ? 1 : 2, obj.ToSendString()).IntPtrToString();
         }
 

@@ -26,8 +26,7 @@ namespace XQ.SDK.Model
 
         [JsonProperty(PropertyName = "sver")] public int Sver { get; set; }
 
-        [JsonProperty(PropertyName = "author")]
-        public string Author { get; set; }
+        [JsonProperty(PropertyName = "author")] public string Author { get; set; }
 
         [JsonProperty(PropertyName = "desc")] public string Desc { get; set; }
 
