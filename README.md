@@ -19,7 +19,7 @@
 
 ## 感谢
 
-* <a href="https://space.bilibili.com/13739660">Fumiko</a>为项目设计了Icon
+* <a href="https://space.bilibili.com/13739660">fumiko</a>为项目设计了Icon
 * 整体SDK架构参考了<a href="https://github.com/Jie2GG/Native.Framework">Jie2GG/Native.Framework</a>
 * 部分消息解析逻辑参考了<a href="https://github.com/w4123/CQXQ">w4123/CQXQ</a>
 * XqDll.cs的使用授权由<a href="https://gitee.com/heerkaisair">赫尔heer</a>提供
