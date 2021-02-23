@@ -6,11 +6,13 @@ using XQ.SDK.XQ;
 
 namespace XQ.Plugin
 {
-    public class MyPlugin : IPrivateMessage //举例 ： 此处 MyPlugin 未在 XQ.Core.ExportMain.cs 中的AddRegister函数中注册，故不会被调用
+    public class MyPlugin : IPrivateMessage 
+    //举例 ： 此处 MyPlugin 未在 XQ.Core.ExportMain.cs 中的AddRegister函数中注册，故不会被调用
     {
         public void PrivateMessage(PrivateMessageEventArgs e)
         {
             var path = Global.Global.ConfigPath;
+            e.ReplyPrivateMessage(path);
         }
     }
 
@@ -29,11 +31,11 @@ namespace XQ.Plugin
             switch (e.Type) //GroupEvent处理方式举例
             {
                 case GroupEventEventType.SomeoneLeaveGroup:
-                    e.FromGroup.SendGroupMessage(false, "某人离开群聊。");
+                    e.FromGroup.SendGroupMessage("某人离开群聊。");
                     return;
 
                 case GroupEventEventType.SomeoneBeRemovedFromGroup:
-                    e.FromGroup.SendGroupMessage(false, "某人被移除群聊。");
+                    e.FromGroup.SendGroupMessage("某人被移除群聊。");
                     return;
 
                 default:
@@ -53,7 +55,7 @@ namespace XQ.Plugin
 
         public void GroupMessage(GroupMessageEventArgs e) //群聊消息处理方式举例
         {
-            e.ReplyAsGroupMessage(false, false, e.Message); //复读消息
+            e.ReplyAsGroupMessage(false, e.Message); //复读消息
 
             if (Global.Global.LoadCompleted)
                 Global.Global.XqApi.SendPrivateMessage(

@@ -54,6 +54,7 @@ namespace XQ.SDK.Model.MessageObject
 
         /// <summary>
         ///     将一条消息分作两次发送
+        ///     一条消息中只能有一个
         /// </summary>
         public static PlainMessage SegmentMark = new PlainMessage("[Next]");
 
