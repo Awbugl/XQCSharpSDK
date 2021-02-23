@@ -40,3 +40,7 @@
   + 目前解决方案 ： 更新插件后(无论之前是否加载成功) 重启XQ框架
 + Intellisense 报错 CS0103 CS0234 CS0246 (不影响Dll生成)
   + 目前解决方案 ： 将 XQ.Core 对 XQ.Plugin,XQ.SDK 的引用取消，再重新引用 以刷新Intellisense
+
+## QQ交流群
++ <a href="https://qm.qq.com/cgi-bin/qm/qr?k=54b0ppnJycfcKvLOJfNX-UDPLbOzp8EP&jump_from=webapi">XQCsharp</a>  807465006
++ 提供最新SDK下载及常见问题解答
