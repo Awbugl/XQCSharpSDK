@@ -52,7 +52,25 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <DllExportIdent>E13B30A4-CBED-4E84-B475-A1E43EF59B52</DllExportIdent>
+    <DllExportMetaLibName>DllExport.dll</DllExportMetaLibName>
+    <DllExportNamespace>System.Runtime.InteropServices</DllExportNamespace>
+    <DllExportDDNSCecil>true</DllExportDDNSCecil>
+    <PlatformTarget>x86</PlatformTarget>
+    <DllExportOrdinalsBase>1</DllExportOrdinalsBase>
+    <DllExportGenExpLib>false</DllExportGenExpLib>
+    <DllExportOurILAsm>false</DllExportOurILAsm>
+    <DllExportLeaveIntermediateFiles>false</DllExportLeaveIntermediateFiles>
+    <DllExportTimeout>30000</DllExportTimeout>
+    <DllExportPeCheck>2</DllExportPeCheck>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DllExport, PublicKeyToken=8337224c9ad9e356">
+      <HintPath>$(SolutionDir)packages\DllExport.1.6.1\gcache\metalib\$(DllExportNamespace)\$(DllExportMetaLibName)</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
@@ -77,7 +95,7 @@
     <Compile Include="Core\TinyIOC\TypeExtensions.cs" />
     <Compile Include="Core\TinyIOC\UnregisteredResolutionActions.cs" />
     <Compile Include="EventArgs\JoinGroupRequestEventArgs.cs" />
-    <Compile Include="Interface\IJoinGroupRequest.cs" />
+    <Compile Include="Interface\Event\IJoinGroupRequest.cs" />
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Enum\Event\FrameEventEventType.cs" />
     <Compile Include="Enum\Event\RobotEventEventType.cs" />
@@ -107,23 +125,23 @@
     <Compile Include="EventArgs\PrivateMessageEventArgs.cs" />
     <Compile Include="EventArgs\TransferEventArgs.cs" />
     <Compile Include="EventArgs\WithDrawMessageEventArgs.cs" />
-    <Compile Include="Interface\IPluginDestroy.cs" />
-    <Compile Include="Interface\IAppDisable.cs" />
-    <Compile Include="Interface\IAppEnable.cs" />
-    <Compile Include="Interface\ICallMenu.cs" />
-    <Compile Include="Interface\IFrameEvent.cs" />
-    <Compile Include="Interface\IFriendAddRequest.cs" />
-    <Compile Include="Interface\IFriendEvent.cs" />
-    <Compile Include="Interface\IBeInvitedToGroup.cs" />
-    <Compile Include="Interface\IGroupEchoMessage.cs" />
-    <Compile Include="Interface\IGroupEvent.cs" />
-    <Compile Include="Interface\IGroupMessage.cs" />
-    <Compile Include="Interface\IPrivateMessage.cs" />
+    <Compile Include="Interface\Event\IPluginDestroy.cs" />
+    <Compile Include="Interface\Event\IAppDisable.cs" />
+    <Compile Include="Interface\Event\IAppEnable.cs" />
+    <Compile Include="Interface\Event\ICallMenu.cs" />
+    <Compile Include="Interface\Event\IFrameEvent.cs" />
+    <Compile Include="Interface\Event\IFriendAddRequest.cs" />
+    <Compile Include="Interface\Event\IFriendEvent.cs" />
+    <Compile Include="Interface\Event\IBeInvitedToGroup.cs" />
+    <Compile Include="Interface\Event\IGroupEchoMessage.cs" />
+    <Compile Include="Interface\Event\IGroupEvent.cs" />
+    <Compile Include="Interface\Event\IGroupMessage.cs" />
+    <Compile Include="Interface\Event\IPrivateMessage.cs" />
     <Compile Include="Interface\IXqEvent.cs" />
-    <Compile Include="Interface\IRobotEvent.cs" />
+    <Compile Include="Interface\Event\IRobotEvent.cs" />
     <Compile Include="Interface\IToSendString.cs" />
-    <Compile Include="Interface\ITransfer.cs" />
-    <Compile Include="Interface\IWithDrawMessage.cs" />
+    <Compile Include="Interface\Event\ITransfer.cs" />
+    <Compile Include="Interface\Event\IWithDrawMessage.cs" />
     <Compile Include="Model\BasisModel.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Json\FriendListItem.cs" />
@@ -152,4 +170,14 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ImportGroup Label=".NET DllExport">
+    <Import Project="$(SolutionDir)packages\DllExport.1.6.1\tools\net.r_eg.DllExport.targets" Condition="Exists('$(SolutionDir)packages\DllExport.1.6.1\tools\net.r_eg.DllExport.targets')" Label="8337224c9ad9e356" />
+  </ImportGroup>
+  <Target Name="DllExportRestorePkg" BeforeTargets="PrepareForBuild">
+    <Warning Condition="!Exists('$(SolutionDir)DllExport.bat')" Text="We can't find 'DllExport.bat' in '$(SolutionDir)' - https://github.com/3F/DllExport" />
+    <Exec Condition="('$(DllExportModImported)' != 'true' Or !Exists('$(SolutionDir)packages\DllExport.1.6.1\tools\net.r_eg.DllExport.targets')) And Exists('$(SolutionDir)DllExport.bat')" Command="cd &quot;$(SolutionDir)&quot; &amp; DllExport.bat  -action Restore" />
+  </Target>
+  <Target Name="DllExportRPkgDynamicImport" BeforeTargets="PostBuildEvent" DependsOnTargets="GetFrameworkPaths" Condition="'$(DllExportModImported)' != 'true' And '$(DllExportRPkgDyn)' != 'false'">
+    <MSBuild BuildInParallel="true" UseResultsCache="true" Projects="$(MSBuildProjectFullPath)" Properties="DllExportRPkgDyn=true" Targets="Build" />
+  </Target>
 </Project>

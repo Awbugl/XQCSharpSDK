@@ -1,4 +1,6 @@
-﻿namespace XQ.SDK.Enum.Event
+﻿using System;
+
+namespace XQ.SDK.Enum.Event
 {
     /// <summary>
     ///     XQ框架事件的EventType
@@ -9,10 +11,12 @@
         ///     框架启动完成
         /// </summary>
         FrameStarted = 10000,
-
+        
         /// <summary>
         ///     框架即将关闭
+        ///     请在 IAppDisable 接口进行处理
         /// </summary>
+        [Obsolete]
         FrameClosing = 10001,
 
         /// <summary>

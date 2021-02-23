@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -21,6 +22,8 @@ namespace XQ.SDK.XQ
     {
         private readonly byte[] _authid;
 
+        public PluginInfo PluginInfo { get; private set; }
+
         /// <summary>
         ///     构造函数
         /// </summary>
@@ -29,6 +32,8 @@ namespace XQ.SDK.XQ
         {
             _authid = authid;
         }
+
+        public void SetPluginInfo(PluginInfo info) => PluginInfo = info;
 
         #region QQApi
 
@@ -141,7 +146,7 @@ namespace XQ.SDK.XQ
                     .Select(i => new Group(this, robot, i)).ToList();
             }
         }
-        
+
         /// <summary>
         /// 获取群成员信息列表
         /// </summary>
@@ -163,7 +168,7 @@ namespace XQ.SDK.XQ
         {
             try
             {
-                return GetGroupMemberInfoList(robot,group)
+                return GetGroupMemberInfoList(robot, group)
                     .Select(i => new Qq(this, robot, i.Key, i.Value.Name, MessageType.Group, group)).ToList();
             }
             catch
@@ -615,6 +620,11 @@ namespace XQ.SDK.XQ
         #endregion
 
         #region FrameApi
+
+        /// <summary>
+        ///     获取插件配置文件路径
+        /// </summary>
+        public string GetConfigPath() => AppContext.BaseDirectory + $@"\Config\{PluginInfo.Name}\";
 
         /// <summary>
         ///     标记函数执行流程 debug时使用 每个函数内只需要调用一次

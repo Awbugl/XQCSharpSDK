@@ -19,6 +19,8 @@ namespace XQ.Core
             Init.Register<IPrivateMessage, PluginExample>();
             Init.Register<IGroupMessage, PluginExample>();
             Init.Register<IAppEnable, PluginExample>();
+            Init.Register<IAppDisable, PluginExample>();
+            Init.Register<IPluginDestroy, PluginExample>();
 
             return new PluginInfo(
                 "TestPlugin", //此参数应与 XQ.Core => 属性 => 应用程序 => 程序集名称 保持一致，否则XQ将报错

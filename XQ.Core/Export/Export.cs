@@ -11,7 +11,7 @@ using XQ.SDK.EventArgs;
 using XQ.SDK.Interface;
 using XQ.SDK.Model;
 
-using static XQ.Global.Global;
+using static XQ.Core.Export.Global;
 
 namespace XQ.Core.Export
 {
@@ -99,7 +99,7 @@ namespace XQ.Core.Export
             try
             {
                 if (Init.Container.CanResolve<IPluginDestroy>())
-                    Init.Container.Resolve<IPluginDestroy>().PluginDestroy(Global.Global.XqApi);
+                    Init.Container.Resolve<IPluginDestroy>().PluginDestroy(XqApi);
             }
             catch (Exception e)
             {
@@ -112,7 +112,7 @@ namespace XQ.Core.Export
             try
             {
                 if (Init.Container.CanResolve<ICallMenu>())
-                    Init.Container.Resolve<ICallMenu>().CallMenu(Global.Global.XqApi);
+                    Init.Container.Resolve<ICallMenu>().CallMenu(XqApi);
                 return 0;
             }
             catch (Exception e)
@@ -157,7 +157,7 @@ namespace XQ.Core.Export
                     case 7: //Private
                         if (!Init.Container.CanResolve<IPrivateMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new PrivateMessageEventArgs(Global.Global.XqApi, args);
+                        eventargs = new PrivateMessageEventArgs(XqApi, args);
                         Init.Container.Resolve<IPrivateMessage>()
                             .PrivateMessage((PrivateMessageEventArgs)eventargs);
                         break;
@@ -165,7 +165,7 @@ namespace XQ.Core.Export
                     case 2: // Group:
                         if (!Init.Container.CanResolve<IGroupMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new GroupMessageEventArgs(Global.Global.XqApi, args);
+                        eventargs = new GroupMessageEventArgs(XqApi, args);
                         Init.Container.Resolve<IGroupMessage>()
                             .GroupMessage((GroupMessageEventArgs)eventargs);
                         break;
@@ -173,7 +173,7 @@ namespace XQ.Core.Export
                     case 6: //Transfer
                         if (!Init.Container.CanResolve<ITransfer>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new TransferEventArgs(Global.Global.XqApi, args);
+                        eventargs = new TransferEventArgs(XqApi, args);
                         Init.Container.Resolve<ITransfer>()
                             .Transfer((TransferEventArgs)eventargs);
                         break;
@@ -181,7 +181,7 @@ namespace XQ.Core.Export
                     case 9: // WithDraw
                         if (!Init.Container.CanResolve<IWithDrawMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new WithDrawMessageEventArgs(Global.Global.XqApi, args);
+                        eventargs = new WithDrawMessageEventArgs(XqApi, args);
                         Init.Container.Resolve<IWithDrawMessage>()
                             .WithDrawMessage((WithDrawMessageEventArgs)eventargs);
                         break;
@@ -189,7 +189,7 @@ namespace XQ.Core.Export
                     case 10: // GroupEcho
                         if (!Init.Container.CanResolve<IGroupEchoMessage>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new GroupEchoMessageEventArgs(Global.Global.XqApi, args);
+                        eventargs = new GroupEchoMessageEventArgs(XqApi, args);
                         Init.Container.Resolve<IGroupEchoMessage>()
                             .GroupEchoMessage((GroupEchoMessageEventArgs)eventargs);
                         break;
@@ -197,7 +197,7 @@ namespace XQ.Core.Export
                     case 101: // AddFriendRequest
                         if (!Init.Container.CanResolve<IFriendAddRequest>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new FriendAddRequestEventArgs(Global.Global.XqApi, args);
+                        eventargs = new FriendAddRequestEventArgs(XqApi, args);
                         Init.Container.Resolve<IFriendAddRequest>()
                             .FriendAddRequest((FriendAddRequestEventArgs)eventargs);
                         break;
@@ -206,7 +206,7 @@ namespace XQ.Core.Export
                     case 215: // SomeoneBeInvitedToGroup
                         if (!Init.Container.CanResolve<IJoinGroupRequest>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new JoinGroupRequestEventArgs(Global.Global.XqApi, args);
+                        eventargs = new JoinGroupRequestEventArgs(XqApi, args);
                         Init.Container.Resolve<IJoinGroupRequest>()
                             .JoinGroupRequest((JoinGroupRequestEventArgs)eventargs);
                         break;
@@ -214,7 +214,7 @@ namespace XQ.Core.Export
                     case 214: // BeInvitedToGroup
                         if (!Init.Container.CanResolve<IBeInvitedToGroup>())
                             return (int)XqEventReturnType.Ignore;
-                        eventargs = new BeInvitedToGroupEventArgs(Global.Global.XqApi, args);
+                        eventargs = new BeInvitedToGroupEventArgs(XqApi, args);
                         Init.Container.Resolve<IBeInvitedToGroup>()
                             .BeInvitedToGroupRequest((BeInvitedToGroupEventArgs)eventargs);
                         break;
@@ -225,14 +225,17 @@ namespace XQ.Core.Export
                         new Thread(() =>
                         {
                             Thread.Sleep(1000);
-                            Init.Container.Resolve<IAppEnable>().AppEnable(Global.Global.XqApi);
+                            Init.Container.Resolve<IAppEnable>().AppEnable(XqApi);
                         }).Start();
                         break;
 
+                    case 10001: // FrameClosing
                     case 12002: // PluginDisabled
-                        if (!Init.Container.CanResolve<IAppDisable>())
+                        if (!Init.Container.CanResolve<IAppDisable>() || !LoadCompleted)
                             return (int)XqEventReturnType.Ignore;
-                        Init.Container.Resolve<IAppDisable>().AppDisable(Global.Global.XqApi);
+                        Init.Container.Resolve<IAppDisable>().AppDisable(XqApi);
+                        Destroy();
+                        DisposeApi();
                         break;
 
                     default:
@@ -241,7 +244,7 @@ namespace XQ.Core.Export
                         {
                             if (!Init.Container.CanResolve<IFriendEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new FriendEventArgs(Global.Global.XqApi, args);
+                            eventargs = new FriendEventArgs(XqApi, args);
                             Init.Container.Resolve<IFriendEvent>().FriendEvent((FriendEventArgs)eventargs);
                         }
 
@@ -249,7 +252,7 @@ namespace XQ.Core.Export
                         {
                             if (!Init.Container.CanResolve<IGroupEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new GroupEventEventArgs(Global.Global.XqApi, args);
+                            eventargs = new GroupEventEventArgs(XqApi, args);
                             Init.Container.Resolve<IGroupEvent>().GroupEvent((GroupEventEventArgs)eventargs);
                         }
 
@@ -257,7 +260,7 @@ namespace XQ.Core.Export
                         {
                             if (!Init.Container.CanResolve<IRobotEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new RobotEventEventArgs(Global.Global.XqApi, args);
+                            eventargs = new RobotEventEventArgs(XqApi, args);
                             Init.Container.Resolve<IRobotEvent>().RobotEvent((RobotEventEventArgs)eventargs);
                         }
 
@@ -265,7 +268,7 @@ namespace XQ.Core.Export
                         {
                             if (!Init.Container.CanResolve<IFrameEvent>())
                                 return (int)XqEventReturnType.Ignore;
-                            eventargs = new FrameEventArgs(Global.Global.XqApi, args);
+                            eventargs = new FrameEventArgs(XqApi, args);
                             Init.Container.Resolve<IFrameEvent>().FrameEvent((FrameEventArgs)eventargs);
                         }
 

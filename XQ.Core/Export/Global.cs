@@ -4,14 +4,14 @@ using System.Threading;
 using XQ.SDK.Model;
 using XQ.SDK.XQ;
 
-namespace XQ.Global
+namespace XQ.Core.Export
 {
     public static class Global
     {
         /// <summary>
         ///     获取Api是否已经加载完成
         /// </summary>
-        public static bool LoadCompleted => XqApi != null;
+        public static bool LoadCompleted { get; private set; }
 
         /// <summary>
         ///     XqApi单例
@@ -33,14 +33,34 @@ namespace XQ.Global
         ///     请不要在插件运行时更改
         /// </summary>
         /// <param name="authId">插件AuthId</param>
-        public static void SetApi(byte[] authId) => XqApi = new XqApi(authId);
+        public static void SetApi(byte[] authId)
+        {
+            XqApi = new XqApi(authId);
+            XqApi.SetPluginInfo(PluginInfo);
+            LoadCompleted = true;
+        }
+
+        /// <summary>
+        ///     清除XqApi单例
+        ///     请不要在插件运行时更改
+        /// </summary>
+        public static void DisposeApi()
+        {
+            XqApi = null;
+            LoadCompleted = false;
+        }
 
         /// <summary>
         ///     设置插件信息单例
         ///     请不要在插件运行时更改
         /// </summary>
         /// <param name="info">插件信息</param>
-        public static void SetInfo(PluginInfo info) => PluginInfo = info;
+        public static void SetInfo(PluginInfo info)
+        {
+            PluginInfo = info;
+            if(LoadCompleted)
+                XqApi.SetPluginInfo(info);
+        }
 
         /// <summary>
         ///     向Log中写入异常信息
