@@ -98,11 +98,12 @@ namespace XQ.SDK.Core
         private static string BytesToString(byte[] bin)
         {
             var length = bin.Length;
+            if (length == 1) return Gb18030.GetString(bin);
+
             var sb = new StringBuilder();
-            for (var i = 0; i < length - 1;)
+            for (var i = 0; i < length;)
                 sb.Append(EncodingGetString(Gb18030, bin, ref i, bin[i] < 0x80 ? 1 : bin[i + 1] > 0x3F ? 2 : 4));
-            if (length > 1 && bin[length - 2] > 0x80) return sb.ToString();
-            sb.Append(Gb18030.GetString(bin, length - 1, 1));
+
             return sb.ToString();
         }
 
