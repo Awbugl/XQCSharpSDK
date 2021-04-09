@@ -1,5 +1,6 @@
-﻿//using System.IO;
-//using XQ.SDK.Enum;
+﻿//using XQ.SDK.Enum;
+//using XQ.SDK.Model.MessageObject;
+
 using XQ.SDK.Enum.Event;
 using XQ.SDK.EventArgs;
 using XQ.SDK.Interface;
@@ -57,12 +58,18 @@ namespace XQ.Plugin
 
         public void GroupMessage(GroupMessageEventArgs e) //群聊消息处理方式举例
         {
-            //e.ReplyAsGroupMessage(false, e.Message); //复读消息
+            /*
+                  var image = ImageMessage.GetFromMessage(e.XqApi, e.Robot, e.Message);
+                  if (image?.Count != 0)
+                      e.FromGroup.SendGroupMessage(image?[0]);
 
-            //e.XqApi.SendPrivateMessage(
-            //  e.Robot, "123456789", PrivateMessageType.Friend, "",
-            //      $"收到群{e.FromGroup}消息\n{e.Message}");//向某人发送消息
-            //e.Handler = false; //不允许低优先级插件处理
+                  e.ReplyAsGroupMessage(false, PlainMessage.At(e.FromQq), e.Message); //复读消息
+
+                  e.XqApi.SendPrivateMessage(
+                    e.Robot, "123456789", PrivateMessageType.Friend, "",
+                       $"收到群{e.FromGroup}消息\n{e.Message}");//向某人发送消息
+                  e.Handler = false; //不允许低优先级插件处理
+            */
         }
 
         public void PrivateMessage(PrivateMessageEventArgs e) //私聊消息处理方式举例
