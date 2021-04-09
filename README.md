@@ -37,9 +37,11 @@
 
 ## 常见问题
 + 由于托管环境限制和XQ插件缓存机制 导致插件的 卸载、更新后重载 功能无法使用
-  + 目前解决方案 ： 更新插件后(无论之前是否加载成功) 重启XQ框架
-+ Intellisense 报错 CS0103 CS0234 CS0246 (不影响Dll生成)
-  + 目前解决方案 ： 将 XQ.Core 对 XQ.Plugin,XQ.SDK 的引用取消，再重新引用 以刷新Intellisense
+  + 解决方案 ： 更新插件后(无论之前是否加载成功) 重启XQ框架
++ Intellisense 报错 CS0103 CS0234 CS0246 (不影响DLL生成)
+  + 解决方案 ： 将 XQ.Core 对 XQ.Plugin,XQ.SDK 的引用取消，再重新引用 以刷新Intellisense
++ 多插件报错问题
+  + 解决方案 ： 修改 XQ.Plugin 的命名空间
 
 ## QQ交流群
 + <a href="https://qm.qq.com/cgi-bin/qm/qr?k=54b0ppnJycfcKvLOJfNX-UDPLbOzp8EP&jump_from=webapi">XQCsharp</a>  807465006
