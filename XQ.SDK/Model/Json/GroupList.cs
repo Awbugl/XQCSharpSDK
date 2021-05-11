@@ -6,7 +6,9 @@ namespace XQ.SDK.Model.Json
 {
     public class GroupList
     {
-        private List<GroupInfoJson> _list;
+        private List<GroupInfoJson> _joinList;
+        private List<GroupInfoJson> _manageList;
+        private List<GroupInfoJson> _createList;
 
         /// <summary>
         ///     指示是否获取成功
@@ -27,16 +29,42 @@ namespace XQ.SDK.Model.Json
         public string ErrMessage { get; set; }
 
         /// <summary>
-        ///     群列表
+        ///     加入的群列表
         /// </summary>
         [JsonProperty(PropertyName = "join")]
-        public List<GroupInfoJson> List
+        public List<GroupInfoJson> JoinList
         {
             get => Ec == 0 && Errcode == 0
-                ? _list
+                ? _joinList
                 : throw new ApplicationException(
                     $"XQApi_GroupList 返回值异常\nErrCode : {Errcode}\nErrMessage{ErrMessage}");
-            set => _list = value;
+            set => _joinList = value;
+        }
+
+        /// <summary>
+        ///     管理的群列表
+        /// </summary>
+        [JsonProperty(PropertyName = "manage")]
+        public List<GroupInfoJson> ManageList
+        {
+            get => Ec == 0 && Errcode == 0
+                ? _manageList
+                : throw new ApplicationException(
+                    $"XQApi_GroupList 返回值异常\nErrCode : {Errcode}\nErrMessage{ErrMessage}");
+            set => _manageList = value;
+        }
+
+        /// <summary>
+        ///     创建的群列表
+        /// </summary>
+        [JsonProperty(PropertyName = "create")]
+        public List<GroupInfoJson> CreateList
+        {
+            get => Ec == 0 && Errcode == 0
+                ? _createList
+                : throw new ApplicationException(
+                    $"XQApi_GroupList 返回值异常\nErrCode : {Errcode}\nErrMessage{ErrMessage}");
+            set => _createList = value;
         }
     }
 }
