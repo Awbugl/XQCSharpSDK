@@ -137,8 +137,28 @@ namespace XQ.SDK.XQ
         {
             try
             {
-                return JsonConvert.DeserializeObject<GroupList>(XqDll.GetGroupList(_authid, robot).IntPtrToString()).List.Select(i => new Group(this, robot, i))
-                    .ToList();
+                var groupList =
+                    JsonConvert.DeserializeObject<GroupList>(XqDll.GetGroupList(_authid, robot).IntPtrToString());
+
+                var totalList = new List<GroupInfoJson>();
+
+                if (groupList.JoinList != null && groupList.JoinList.Count > 0)
+                {
+                    totalList.AddRange(groupList.JoinList);
+                }
+
+                if (groupList.ManageList != null && groupList.ManageList.Count > 0)
+                {
+                    totalList.AddRange(groupList.ManageList);
+                }
+
+                if (groupList.CreateList != null && groupList.CreateList.Count > 0)
+                {
+                    totalList.AddRange(groupList.CreateList);
+                }
+
+
+                return totalList.Select(i => new Group(this, robot, i)).ToList();
             }
             catch
             {
@@ -146,6 +166,18 @@ namespace XQ.SDK.XQ
                     .Select(i => new Group(this, robot, i)).ToList();
             }
         }
+
+
+        /// <summary>
+        ///     获取群列表B
+        /// </summary>
+        /// <param name="robot">botQQ</param>
+        public List<Group> GetGroupList_B(string robot)
+        {
+            return XqDll.GetGroupList_B(_authid, robot).IntPtrToString().SplitToList()
+                .Select(i => new Group(this, robot, i)).ToList();
+        }
+
 
         /// <summary>
         /// 获取群成员信息列表
@@ -759,6 +791,28 @@ namespace XQ.SDK.XQ
         public List<string> GetrobotList()
         {
             return XqDll.GetQQList(_authid).IntPtrToString().SplitToList();
+        }
+
+        /// <summary>
+        /// 取登录二维码base64
+        /// </summary>
+        /// <param name="Authid"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetQrCode(byte[] key)
+        {
+            return XqDll.GetQrCode(_authid, key).IntPtrToString();
+        }
+
+        /// <summary>
+        /// 检查登录二维码状态
+        /// </summary>
+        /// <param name="Authid"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public int CheckQrCode(byte[] key)
+        {
+            return XqDll.CheckQrCode(_authid, key);
         }
 
         #endregion

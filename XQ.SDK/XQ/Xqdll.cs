@@ -227,5 +227,11 @@ namespace XQ.SDK.XQ
 
         [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_Mark")]
         public static extern void Mark(byte[] autoid, string message);
+
+        [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_GetQrcode")]
+        public static extern IntPtr GetQrCode(byte[] autoid, byte[] key);
+
+        [DllImport(DllName, CharSet = CharSet.Ansi, EntryPoint = "S3_Api_CheckQrcode")]
+        public static extern int CheckQrCode(byte[] autoid, byte[] key);
     }
 }
