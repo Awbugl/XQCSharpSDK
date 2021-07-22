@@ -7,46 +7,6 @@ namespace XQ.SDK.Model.MessageObject
     /// </summary>
     public class PlainMessage : IToSendString
     {
-        /// <summary>
-        ///     表示当前时间，例：2017年1月1日18时00分00秒
-        /// </summary>
-        public static PlainMessage Time = new PlainMessage("[Time]");
-
-        /// <summary>
-        ///     表示当前时间，例：18:00
-        /// </summary>
-        public static PlainMessage NumTime = new PlainMessage("[NumTime]");
-
-        /// <summary>
-        ///     FromGroup的群名
-        /// </summary>
-        public static PlainMessage FromGroupName = new PlainMessage("[GName]");
-
-        /// <summary>
-        ///     FromQQ的昵称
-        /// </summary>
-        public static PlainMessage FromQqName => new PlainMessage("[ObjName]");
-        
-        /// <summary>
-        ///     机器人昵称
-        /// </summary>
-        public static PlainMessage RobotName = new PlainMessage("[RName]");
-
-        /// <summary>
-        ///     机器人Id
-        /// </summary>
-        public static PlainMessage RobotId = new PlainMessage("[RQQ]");
-
-        /// <summary>
-        ///     随机Face表情
-        /// </summary>
-        public static PlainMessage RandomFace = new PlainMessage("[RFace]");
-
-        /// <summary>
-        ///     将一条消息分作两次发送
-        ///     一条消息中只能有一个
-        /// </summary>
-        public static PlainMessage SegmentMark = new PlainMessage("[Next]");
 
         /// <summary>
         ///     At全群
