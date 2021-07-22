@@ -102,7 +102,8 @@ namespace XQ.SDK.Core
 
             var sb = new StringBuilder();
             for (var i = 0; i < length;)
-                sb.Append(EncodingGetString(Gb18030, bin, ref i, bin[i] < 0x80 ? 1 : bin[i + 1] > 0x3F ? 2 : 4));
+                sb.Append(EncodingGetString(Gb18030, bin, 
+                    ref i, bin[i] < 0x80 ? 1 : bin[i + 1] > 0x3F ? 2 : 4));
 
             return sb.ToString();
         }

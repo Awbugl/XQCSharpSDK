@@ -796,7 +796,6 @@ namespace XQ.SDK.XQ
         /// <summary>
         /// 取登录二维码base64
         /// </summary>
-        /// <param name="Authid"></param>
         /// <param name="key"></param>
         /// <returns></returns>
         public string GetQrCode(byte[] key)
@@ -807,7 +806,6 @@ namespace XQ.SDK.XQ
         /// <summary>
         /// 检查登录二维码状态
         /// </summary>
-        /// <param name="Authid"></param>
         /// <param name="key"></param>
         /// <returns></returns>
         public int CheckQrCode(byte[] key)
